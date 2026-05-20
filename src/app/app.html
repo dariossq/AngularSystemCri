@@ -169,6 +169,31 @@
     fill: var(--gray-900);
   }
 
+  .sidebar-submenu {
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .sidebar-submenu .nav-link {
+    padding-left: 0.35rem;
+    transition: background 0.2s ease;
+  }
+
+  .sidebar-submenu .nav-link:hover,
+  .sidebar-submenu .nav-link.active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-submenu .submenu-bullet {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.65);
+  }
+
+  .rotate-90 {
+    transform: rotate(90deg);
+  }
+
   @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;
@@ -184,6 +209,7 @@
   }
 </style>
 
+
 <!-- Vertical Sidebar Menu - Bootstrap Styled -->
 <div class="d-flex" style="min-height: 100vh;">
   <!-- Toggle Button (visible when menu is closed) -->
@@ -197,13 +223,7 @@
 
   <!-- Sidebar Navigation -->
   <nav [class.d-none]="!menuOpen()" class="bg-dark text-white d-flex flex-column" style="width: 280px; padding: 1rem 0; box-shadow: 2px 0 10px rgba(0,0,0,0.2);">
-    <!-- Close Button inside nav (top right) -->
-    <button class="btn btn-dark align-self-end me-2 mt-2" style="border: none; padding: 0.25rem 0.5rem;" (click)="toggleMenu()" title="Cerrar menú">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
-        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-      </svg>
-    </button>
-
+   
     <!-- Logo Section -->
     <div class="px-3 pb-2 mb-3 border-bottom border-secondary">
       <div class="d-flex align-items-center gap-2">
@@ -234,17 +254,60 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white d-flex align-items-center justify-content-between px-2 rounded" style="transition: all 0.3s ease;" routerLink="/cabildo" routerLinkActive="active">
+            <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="cabildoOpen()" (click)="toggleCabildo()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
                 </svg>
                 <span>Cabildo</span>
               </span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" [class.rotate-90]="cabildoOpen()">
                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 1 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
               </svg>
-            </a>
+            </button>
+            @if (cabildoOpen()) {
+              <div class="sidebar-submenu ps-4 mt-2">
+                <div class="text-secondary small text-uppercase mb-1">Censo</div>
+                <ul class="list-unstyled mb-2">
+                  <li>
+                    <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/censo/gestion-registros">
+                      <span class="submenu-bullet"></span>
+                      <span>Gestión de registros</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/censo/reporte-censal">
+                      <span class="submenu-bullet"></span>
+                      <span>Reporte Censal</span>
+                    </a>
+                  </li>
+                </ul>
+                <div class="text-secondary small text-uppercase mb-1">Veredas</div>
+                <ul class="list-unstyled mb-2">
+                  <li>
+                    <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/veredas/asignacion-cargo">
+                      <span class="submenu-bullet"></span>
+                      <span>Asignación cargo</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/veredas/reporte-por-anio">
+                      <span class="submenu-bullet"></span>
+                      <span>Reporte por año</span>
+                    </a>
+                  </li>
+                </ul>
+                <div class="text-secondary small text-uppercase mb-1">Obligación y colaboración</div>
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/obligacion-colaboracion">
+                      <span class="submenu-bullet"></span>
+                      <span>Ver detalle</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            }
           </li>
           <li class="nav-item">
             <a class="nav-link text-white d-flex align-items-center justify-content-between px-2 rounded" style="transition: all 0.3s ease;" routerLink="/guardia" routerLinkActive="active">
@@ -342,9 +405,36 @@
     </div>
   </nav>
 
-  <main class="main flex-grow-1" style="overflow-y: auto;">
-  <div class="content">
-    <div class="left-side">
+  <div class="flex-grow-1 d-flex flex-column">
+    <header class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom bg-white shadow-sm">
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-light btn-sm rounded-3 d-flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem;" (click)="toggleMenu()" title="Abrir/Cerrar menú">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+        <div class="d-flex align-items-center gap-2">
+          <span class="text-secondary small text-uppercase fw-semibold">Desarrollo</span>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-light btn-sm rounded-circle p-2" aria-label="Notificaciones">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 16a2 2 0 0 0 1.985-1.75H6.015A2 2 0 0 0 8 16zm6-6a6 6 0 0 1-12 0c0-2.18.942-3.845 2.344-4.792C4.6 4.364 5.802 3.75 8 3.75c2.198 0 3.4.614 3.656 1.458C13.058 6.155 14 7.82 14 10zm-6-8a4 4 0 0 0-4 4c0 1.749-.564 3.188-1.602 4.015A1 1 0 0 0 3 15h10a1 1 0 0 0 .602-1.985C13.564 9.188 13 7.749 13 6a4 4 0 0 0-4-4z"/>
+          </svg>
+        </button>
+        <button class="btn btn-light btn-sm rounded-pill d-flex align-items-center gap-2 px-3">
+          <span class="fw-semibold">ADMIN123</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm-2 4a5 5 0 0 0-4.546 2.916.5.5 0 0 0 .454.668h7.764a.5.5 0 0 0 .454-.668A5 5 0 0 0 8 9z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="main flex-grow-1 overflow-auto p-4 bg-light">
+      <div class="content">
+        <div class="left-side">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 982 239"

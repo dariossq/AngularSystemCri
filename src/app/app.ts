@@ -10,8 +10,13 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 export class App {
   protected readonly title = signal('SystemCri');
   protected readonly menuOpen = signal(true);
+  protected readonly cabildoOpen = signal(true);
 
   toggleMenu() {
     this.menuOpen.update(value => !value);
+  }
+
+  toggleCabildo() {
+    this.cabildoOpen.update(value => !value);
   }
 }
