@@ -10,13 +10,39 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 export class App {
   protected readonly title = signal('SystemCri');
   protected readonly menuOpen = signal(true);
-  protected readonly cabildoOpen = signal(true);
+  protected readonly cabildoOpen = signal(false);
+  protected readonly guardiaOpen = signal(false);
 
-  toggleMenu() {
+  public toggleMenu() {
     this.menuOpen.update(value => {
       const nextValue = !value;
 
       if (!nextValue) {
+        this.cabildoOpen.set(false);
+        this.guardiaOpen.set(false);
+      }
+
+      return nextValue;
+    });
+  }
+
+  public toggleCabildo() {
+    this.cabildoOpen.update(value => {
+      const nextValue = !value;
+
+      if (nextValue) {
+        this.guardiaOpen.set(false);
+      }
+
+      return nextValue;
+    });
+  }
+
+  public toggleGuardia() {
+    this.guardiaOpen.update(value => {
+      const nextValue = !value;
+
+      if (nextValue) {
         this.cabildoOpen.set(false);
       }
 
@@ -24,24 +50,23 @@ export class App {
     });
   }
 
-  toggleCabildo() {
-    this.cabildoOpen.update(value => !value);
-  }
-
-  openCabildoSubmenu() {
+  public selectCabildo() {
     this.cabildoOpen.set(true);
+    this.guardiaOpen.set(false);
   }
 
-  closeCabildoSubmenu() {
+  public selectGuardia() {
+    this.guardiaOpen.set(true);
     this.cabildoOpen.set(false);
   }
 
   @HostListener('document:click', ['$event'])
-  closeSubmenuOnOutsideClick(event: MouseEvent) {
+  public closeSubmenuOnOutsideClick(event: MouseEvent) {
     const target = event.target as HTMLElement | null;
 
     if (!target?.closest('.sidebar-submenu-item')) {
       this.cabildoOpen.set(false);
+      this.guardiaOpen.set(false);
     }
   }
 }

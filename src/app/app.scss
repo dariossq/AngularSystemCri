@@ -1,6 +1,26 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-shell {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-content {
+  min-width: 0;
+  min-height: 0;
+}
+
+.app-content .main {
+  min-height: 0;
+}
+
 .app-sidebar {
   width: 280px;
-  min-height: 100vh;
+  height: 100vh;
   padding: 1rem 0;
   background-color: #100231;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
@@ -11,8 +31,31 @@
   min-height: 2.4rem;
 }
 
+.app-sidebar .nav-link,
+.app-sidebar button.nav-link {
+  border-left: 3px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.app-sidebar .nav-link:hover,
+.app-sidebar button.nav-link:hover,
+.app-sidebar .nav-link:focus-visible,
+.app-sidebar button.nav-link:focus-visible {
+  color: #ffffff !important;
+  background-color: rgba(78, 174, 255, 0.22);
+  border-left-color: #20c7ff;
+}
+
+.app-sidebar .nav-link:active,
+.app-sidebar button.nav-link:active {
+  background-color: rgba(32, 199, 255, 0.34);
+  transform: translateX(1px);
+}
+
 .sidebar-menu-scroll {
+  min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar-collapsed {
@@ -50,6 +93,8 @@
   justify-content: center !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+  border-left: 0;
+  border-radius: 0.35rem;
 }
 
 .sidebar-collapsed .nav-link > span,
@@ -63,9 +108,10 @@
 }
 
 .sidebar-collapsed .sidebar-submenu {
+  display: none;
   position: absolute;
   top: 0;
-  left: calc(100% + 0.55rem);
+  left: 100%;
   z-index: 20;
   width: 16rem;
   max-height: calc(100vh - 2rem);
@@ -76,6 +122,10 @@
   border-radius: 0.35rem;
   background: #405a73;
   box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.28);
+}
+
+.sidebar-collapsed .sidebar-submenu-item:hover .sidebar-submenu {
+  display: block;
 }
 
 .sidebar-collapsed .sidebar-submenu::before {
@@ -98,8 +148,16 @@
   justify-content: flex-start !important;
   min-height: 1.75rem;
   padding: 0.25rem 0.45rem !important;
+  border-left: 3px solid transparent;
   text-align: left;
   white-space: normal;
+}
+
+.sidebar-collapsed .sidebar-submenu .nav-link:hover,
+.sidebar-collapsed .sidebar-submenu .nav-link:focus-visible {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.14);
+  border-left-color: #20c7ff;
 }
 
 .sidebar-collapsed .sidebar-submenu .submenu-bullet {
