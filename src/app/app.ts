@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -13,10 +13,35 @@ export class App {
   protected readonly cabildoOpen = signal(true);
 
   toggleMenu() {
-    this.menuOpen.update(value => !value);
+    this.menuOpen.update(value => {
+      const nextValue = !value;
+
+      if (!nextValue) {
+        this.cabildoOpen.set(false);
+      }
+
+      return nextValue;
+    });
   }
 
   toggleCabildo() {
     this.cabildoOpen.update(value => !value);
+  }
+
+  openCabildoSubmenu() {
+    this.cabildoOpen.set(true);
+  }
+
+  closeCabildoSubmenu() {
+    this.cabildoOpen.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeSubmenuOnOutsideClick(event: MouseEvent) {
+    const target = event.target as HTMLElement | null;
+
+    if (!target?.closest('.sidebar-submenu-item')) {
+      this.cabildoOpen.set(false);
+    }
   }
 }

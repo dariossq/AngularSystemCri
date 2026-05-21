@@ -226,7 +226,7 @@
     </div>
 
     <!-- Menu Groups -->
-    <div class="px-3 flex-grow-1" style="overflow-y: auto;">
+    <div class="sidebar-menu-scroll px-3 flex-grow-1">
       <!-- Menu Principal Group -->
       <div class="main_menu_side hidden-print main_menu">
         <small class="text-secondary text-uppercase fw-bold d-block mb-2">Menu Principal</small>
@@ -244,7 +244,7 @@
               </svg>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item sidebar-submenu-item" (mouseenter)="openCabildoSubmenu()" (mouseleave)="closeCabildoSubmenu()">
             <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="cabildoOpen()" (click)="toggleCabildo()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
