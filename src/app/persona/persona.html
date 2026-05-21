@@ -1,0 +1,331 @@
+<section class="persona-form">
+  <!-- Mensajes de Éxito y Error -->
+  <div class="container-alerts">
+    <div *ngIf="mensajeExito" class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fa fa-check-circle"></i> {{ mensajeExito }}
+    </div>
+  </div>
+
+  <div class="header-section">
+    <div class="header-content">
+      <h1>Captura de Persona</h1>
+      <div class="header-info">
+        <span class="info-item">
+          <i class="fa fa-calendar"></i> 
+          <span class="text-muted">{{ today | date: 'dd/MM/yyyy' }}</span>
+        </span>
+        <span class="badge badge-counter">{{ registros.length }}</span>
+      </div>
+    </div>
+  </div>
+
+  <form class="person-form">
+    <!-- Sección 1: Información Personal -->
+    <div class="form-section">
+      <h5 class="section-title">Información Personal</h5>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label">Nivel gerárquico</label>
+          <select class="form-select" [(ngModel)]="persona.nivelGerarquico" name="nivelGerarquico">
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let opt of opciones.nivelGerarquico">{{ opt }}</option>
+          </select>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <label class="form-label">Estado</label>
+          <select class="form-select" [(ngModel)]="persona.estado" name="estado">
+            <option *ngFor="let opt of opciones.estado">{{ opt }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Primer nombre <span class="required">*</span></label>
+          <input type="text" class="form-control" [class.is-invalid]="mostrarErrores && errores['primerNombre']" 
+                 [(ngModel)]="persona.primerNombre" name="primerNombre" placeholder="Ej: Juan" />
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['primerNombre']">
+            {{ errores['primerNombre'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Segundo nombre</label>
+          <input type="text" class="form-control" [(ngModel)]="persona.segundoNombre" 
+                 name="segundoNombre" placeholder="Ej: David" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Primer apellido <span class="required">*</span></label>
+          <input type="text" class="form-control" [class.is-invalid]="mostrarErrores && errores['primerApellido']"
+                 [(ngModel)]="persona.primerApellido" name="primerApellido" placeholder="Ej: Pérez" />
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['primerApellido']">
+            {{ errores['primerApellido'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Segundo apellido</label>
+          <input type="text" class="form-control" [(ngModel)]="persona.segundoApellido" 
+                 name="segundoApellido" placeholder="Ej: García" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección 2: Identificación -->
+    <div class="form-section">
+      <h5 class="section-title">Identificación</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Documento <span class="required">*</span></label>
+          <select class="form-select" [class.is-invalid]="mostrarErrores && errores['documento']"
+                  [(ngModel)]="persona.documento" name="documento">
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let opt of opciones.documento">{{ opt }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['documento']">
+            {{ errores['documento'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Identificación <span class="required">*</span></label>
+          <input type="text" class="form-control" [class.is-invalid]="mostrarErrores && errores['identificacion']"
+                 [(ngModel)]="persona.identificacion" name="identificacion" placeholder="Ej: 10617052" 
+                 inputmode="numeric" />
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['identificacion']">
+            {{ errores['identificacion'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Género <span class="required">*</span></label>
+          <select class="form-select" [class.is-invalid]="mostrarErrores && errores['genero']"
+                  [(ngModel)]="persona.genero" name="genero">
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let opt of opciones.genero">{{ opt }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['genero']">
+            {{ errores['genero'] }}
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+
+    <!-- Sección 3: Ubicación y Datos Personales -->
+    <div class="form-section">
+      <h5 class="section-title">Ubicación y Educación</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Vereda <span class="required">*</span></label>
+          <select class="form-select" [class.is-invalid]="mostrarErrores && errores['vereda']"
+                  [(ngModel)]="persona.vereda" name="vereda">
+            <option value="">Seleccionar...</option>
+            <option value="Vereda 1">Vereda 1</option>
+            <option value="Vereda 2">Vereda 2</option>
+            <option value="Vereda 3">Vereda 3</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['vereda']">
+            {{ errores['vereda'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Escolaridad <span class="required">*</span></label>
+          <select class="form-select" [class.is-invalid]="mostrarErrores && errores['escolaridad']"
+                  [(ngModel)]="persona.escolaridad" name="escolaridad">
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let opt of opciones.escolaridad">{{ opt }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['escolaridad']">
+            {{ errores['escolaridad'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Profesión</label>
+          <select class="form-select" [(ngModel)]="persona.profesion" name="profesion">
+            <option value="">Seleccionar...</option>
+            <option value="Ingeniero">Ingeniero</option>
+            <option value="Técnico">Técnico</option>
+            <option value="Maestro">Maestro</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+
+    <!-- Sección 4: Datos Adicionales -->
+    <div class="form-section">
+      <h5 class="section-title">Datos Demográficos</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Fecha de nacimiento <span class="required">*</span></label>
+          <input type="date" class="form-control" [class.is-invalid]="mostrarErrores && errores['fechaNacimiento']"
+                 [(ngModel)]="persona.fechaNacimiento" name="fechaNacimiento" />
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['fechaNacimiento']">
+            {{ errores['fechaNacimiento'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Estado civil</label>
+          <select class="form-select" [(ngModel)]="persona.estadoCivil" name="estadoCivil">
+            <option value="">Seleccionar...</option>
+            <option *ngFor="let opt of opciones.estadoCivil">{{ opt }}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Hijos a cargo</label>
+          <select class="form-select" [(ngModel)]="persona.hijosACargo" name="hijosACargo">
+            <option *ngFor="let opt of opciones.hijosACargo">{{ opt }}</option>
+          </select>
+        </div>
+        <div class="col-md-1">
+          <label class="form-label">&nbsp;</label>
+          <select class="form-select">
+            <option>H</option>
+            <option>M</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección 5: Lugar y Fecha de Expedición -->
+    <div class="form-section">
+      <h5 class="section-title">Lugar y Fecha de Expedición</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Departamento</label>
+          <select class="form-select" [(ngModel)]="persona.departamento" name="departamento">
+            <option value="">Seleccionar...</option>
+            <option value="Cauca">Cauca</option>
+            <option value="Nariño">Nariño</option>
+            <option value="Huila">Huila</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Municipio</label>
+          <select class="form-select" [(ngModel)]="persona.municipio" name="municipio">
+            <option value="">Seleccionar...</option>
+            <option value="Popayán">Popayán</option>
+            <option value="Silvia">Silvia</option>
+            <option value="Puracé">Puracé</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Fecha de expedición</label>
+          <input type="date" class="form-control" [(ngModel)]="persona.fechaExpedicion" 
+                 name="fechaExpedicion" />
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+
+    <!-- Sección 6: Contacto -->
+    <div class="form-section">
+      <h5 class="section-title">Contacto</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Celular</label>
+          <input type="tel" class="form-control" [class.is-invalid]="mostrarErrores && errores['celular']"
+                 [(ngModel)]="persona.celular" name="celular" placeholder="Ej: 3125380120" 
+                 inputmode="numeric" />
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['celular']">
+            {{ errores['celular'] }}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Teléfono</label>
+          <input type="tel" class="form-control" [class.is-invalid]="mostrarErrores && errores['telefono']"
+                 [(ngModel)]="persona.telefono" name="telefono" placeholder="Ej: 8282424" 
+                 inputmode="numeric" />
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['telefono']">
+            {{ errores['telefono'] }}
+          </div>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="form-section">
+      <div class="button-group">
+        <button type="button" class="btn btn-primary" (click)="guardar()">
+          <i class="fa fa-save"></i> REGISTRAR
+        </button>
+        <button type="button" class="btn btn-success" (click)="actualizar()">
+          <i class="fa fa-edit"></i> ACTUALIZAR
+        </button>
+        <button type="button" class="btn btn-danger" (click)="cancelar()">
+          <i class="fa fa-times"></i> CANCELAR
+        </button>
+        <button type="button" class="btn btn-warning" (click)="eliminar()">
+          <i class="fa fa-trash"></i> ELIMINAR
+        </button>
+      </div>
+    </div>
+
+    <!-- Sección de Búsqueda -->
+    <div class="form-section">
+      <h5 class="section-title">Búsqueda de Registros</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <button type="button" class="btn btn-outline-primary w-100" (click)="buscarRegistro()">
+            <i class="fa fa-search"></i> BUSCAR
+          </button>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" [class.is-invalid]="mostrarErrores && errores['buscar']"
+                 [(ngModel)]="buscar" name="buscar" placeholder="Ingrese identificación..." 
+                 inputmode="numeric" />
+          <div class="invalid-feedback" *ngIf="mostrarErrores && errores['buscar']">
+            {{ errores['buscar'] }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Registros listados -->
+  <div class="registros-section" *ngIf="registros.length > 0">
+    <div class="registros-header">
+      <h5><i class="fa fa-table"></i> Registros Capturados ({{ registros.length }})</h5>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Identificación</th>
+            <th>Nombre Completo</th>
+            <th>Fecha Nacimiento</th>
+            <th>Celular</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reg of registros" class="record-row">
+            <td class="font-weight-bold">{{ reg.identificacion }}</td>
+            <td>{{ reg.primerNombre }} {{ reg.segundoNombre }} {{ reg.primerApellido }} {{ reg.segundoApellido }}</td>
+            <td>{{ reg.fechaNacimiento }}</td>
+            <td>{{ reg.celular || '-' }}</td>
+            <td>
+              <span class="badge" [ngClass]="{'badge-success': reg.estado === 'Activo', 'badge-danger': reg.estado === 'Inactivo', 'badge-warning': reg.estado === 'Suspendido'}">
+                {{ reg.estado }}
+              </span>
+            </td>
+            <td>
+              <button type="button" class="btn btn-sm btn-info" (click)="persona = {...reg}; mostrarErrores = false" title="Cargar registro">
+                <i class="fa fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="registros.length === 0">
+    <i class="fa fa-inbox"></i>
+    <p>No hay registros capturados aún</p>
+    <small>Complete el formulario y presione REGISTRAR para agregar registros</small>
+  </div>
+</section>
