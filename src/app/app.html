@@ -6,7 +6,7 @@
 <!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
 <!-- * * * * * * * to get started with your project! * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
+<!-- 
 <style>
   :host {
     --bright-blue: oklch(51.01% 0.274 263.83);
@@ -207,22 +207,13 @@
       margin-block: 1.5rem;
     }
   }
-</style>
+</style> -->
 
 
 <!-- Vertical Sidebar Menu - Bootstrap Styled -->
 <div class="d-flex" style="min-height: 100vh;">
-  <!-- Toggle Button (visible when menu is closed) -->
-  @if (!menuOpen()) {
-    <button class="btn btn-dark position-fixed" style="top: 1rem; left: 1rem; z-index: 1000; border: none;" (click)="toggleMenu()" title="Abrir menú">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-      </svg>
-    </button>
-  }
-
   <!-- Sidebar Navigation -->
-  <nav [class.d-none]="!menuOpen()" class="bg-dark text-white d-flex flex-column" style="width: 280px; padding: 1rem 0; box-shadow: 2px 0 10px rgba(0,0,0,0.2);">
+  <nav [class.sidebar-collapsed]="!menuOpen()" class="app-sidebar text-white d-flex flex-column">
    
     <!-- Logo Section -->
     <div class="px-3 pb-2 mb-3 border-bottom border-secondary">
@@ -237,7 +228,7 @@
     <!-- Menu Groups -->
     <div class="px-3 flex-grow-1" style="overflow-y: auto;">
       <!-- Menu Principal Group -->
-      <div class="mb-4">
+      <div class="main_menu_side hidden-print main_menu">
         <small class="text-secondary text-uppercase fw-bold d-block mb-2">Menu Principal</small>
         <ul class="navbar-nav flex-column gap-1 ps-0">
           <li class="nav-item">

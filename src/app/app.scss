@@ -1,0 +1,51 @@
+.app-sidebar {
+  width: 280px;
+  min-height: 100vh;
+  padding: 1rem 0;
+  background-color: #100231;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width 0.25s ease;
+}
+
+.app-sidebar .nav-link {
+  min-height: 2.4rem;
+}
+
+.sidebar-collapsed {
+  width: 4rem;
+}
+
+.sidebar-collapsed .px-3 {
+  padding-left: 0.55rem !important;
+  padding-right: 0.55rem !important;
+}
+
+.sidebar-collapsed .navbar-brand,
+.sidebar-collapsed small,
+.sidebar-collapsed .sidebar-submenu,
+.sidebar-collapsed .nav-link > svg,
+.sidebar-collapsed .nav-link > span > span {
+  display: none !important;
+}
+
+.sidebar-collapsed .border-bottom {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-collapsed .nav-link,
+.sidebar-collapsed button.nav-link {
+  justify-content: center !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.sidebar-collapsed .nav-link > span,
+.sidebar-collapsed button.nav-link > span {
+  justify-content: center;
+}
+
+.sidebar-collapsed .nav-link svg,
+.sidebar-collapsed button.nav-link svg {
+  flex: 0 0 auto;
+}
