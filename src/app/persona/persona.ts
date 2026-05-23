@@ -1,6 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-persona',
@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
 })
 export class PersonaComponent {
   public today = new Date();
+  public mensajeExito = '';
+  private timerMensaje: any;
+  
   public persona = {
     nivelGerarquico: '',
     estado: 'Activo',
@@ -34,11 +37,15 @@ export class PersonaComponent {
     telefono: ''
   };
 
+  // listTarjetas: any[] = [
+  //   { titular: 'Juan Perez', numeroTarjeta: '252525262', fechaExpiracion: '11/23', cvv: '123' },
+  //   { titular: 'Miguel Gonzalez', numeroTarjeta: '252525262', fechaExpiracion: '11/24', cvv: '312' }
+  // ];
+
   public registros: any[] = [];
-  public buscar: string = '';
+  public buscar = '';
   public errores: { [key: string]: string } = {};
-  public mensajeExito: string = '';
-  public mostrarErrores: boolean = false;
+  public mostrarErrores = false;
 
   public opciones = {
     nivelGerarquico: ['Gerencial', 'Coordinador', 'Operativo', 'Otro'],
@@ -50,12 +57,24 @@ export class PersonaComponent {
     hijosACargo: ['0', '1', '2', '3', '4', '5', 'Más de 5']
   };
 
+  public trackByOpcion(_index: number, opcion: string): string {
+    return opcion;
+  }
+
+  public trackByRegistro(_index: number, registro: any): string {
+    return registro.identificacion;
+  }
+
+  public cargarRegistro(registro: any) {
+    this.persona = { ...registro };
+    this.mostrarErrores = false;
+  }
+
   public guardar() {
     this.mostrarErrores = true;
     if (this.validarCompleto()) {
       this.registros.unshift({ ...this.persona });
-      this.mensajeExito = 'Persona registrada correctamente.';
-      setTimeout(() => this.mensajeExito = '', 3000);
+      this.mostrarMensajeExito('Persona registrada correctamente.');
       this.limpiar();
       this.mostrarErrores = false;
     }
@@ -67,8 +86,7 @@ export class PersonaComponent {
       const index = this.registros.findIndex(r => r.identificacion === this.persona.identificacion);
       if (index > -1) {
         this.registros[index] = { ...this.persona };
-        this.mensajeExito = 'Persona actualizada correctamente.';
-        setTimeout(() => this.mensajeExito = '', 3000);
+        this.mostrarMensajeExito('Persona actualizada correctamente.');
         this.limpiar();
         this.mostrarErrores = false;
       } else {
@@ -87,12 +105,12 @@ export class PersonaComponent {
       this.errores['identificacion'] = 'Seleccione un registro para eliminar';
       return;
     }
+
     if (confirm('¿Está seguro de que desea eliminar este registro?')) {
       const index = this.registros.findIndex(r => r.identificacion === this.persona.identificacion);
       if (index > -1) {
         this.registros.splice(index, 1);
-        this.mensajeExito = 'Persona eliminada correctamente.';
-        setTimeout(() => this.mensajeExito = '', 3000);
+        this.mostrarMensajeExito('Persona eliminada correctamente.');
         this.limpiar();
       } else {
         this.errores['identificacion'] = 'Registro no encontrado.';
@@ -105,22 +123,36 @@ export class PersonaComponent {
       this.errores['buscar'] = 'Ingrese una identificación para buscar';
       return;
     }
+
     const registro = this.registros.find(r => r.identificacion === this.buscar);
     if (registro) {
-      this.persona = { ...registro };
+      this.cargarRegistro(registro);
       this.errores['buscar'] = '';
-      this.mensajeExito = 'Registro encontrado.';
-      setTimeout(() => this.mensajeExito = '', 2000);
+      this.mostrarMensajeExito('Registro encontrado.');
     } else {
       this.errores['buscar'] = 'Registro no encontrado con esa identificación';
       this.limpiar();
     }
   }
 
+  public cerrarMensaje() {
+    this.mensajeExito = '';
+    if (this.timerMensaje) {
+      clearTimeout(this.timerMensaje);
+    }
+  }
+
+  private mostrarMensajeExito(mensaje: string) {
+    this.mensajeExito = mensaje;
+    if (this.timerMensaje) {
+      clearTimeout(this.timerMensaje);
+    }
+    this.timerMensaje = setTimeout(() => this.mensajeExito = '', 4000);
+  }
+
   private validarCompleto(): boolean {
     this.errores = {};
-    
-    // Validar campos obligatorios
+
     if (!this.persona.primerNombre?.trim()) {
       this.errores['primerNombre'] = 'Primer nombre es requerido';
     }
@@ -145,18 +177,15 @@ export class PersonaComponent {
     if (!this.persona.fechaNacimiento) {
       this.errores['fechaNacimiento'] = 'Fecha de nacimiento es requerida';
     }
-    
-    // Validar formato de identificación (solo números)
+
     if (this.persona.identificacion && !/^\d+$/.test(this.persona.identificacion)) {
       this.errores['identificacion'] = 'Identificación debe contener solo números';
     }
-    
-    // Validar longitud de identificación
+
     if (this.persona.identificacion && this.persona.identificacion.length < 5) {
       this.errores['identificacion'] = 'Identificación debe tener al menos 5 dígitos';
     }
-    
-    // Validar teléfono/celular (si se proporciona)
+
     if (this.persona.celular && !/^\d+$/.test(this.persona.celular)) {
       this.errores['celular'] = 'Celular debe contener solo números';
     }
@@ -166,8 +195,7 @@ export class PersonaComponent {
     if (this.persona.telefono && !/^\d+$/.test(this.persona.telefono)) {
       this.errores['telefono'] = 'Teléfono debe contener solo números';
     }
-    
-    // Validar que no haya errores
+
     return Object.keys(this.errores).length === 0;
   }
 
