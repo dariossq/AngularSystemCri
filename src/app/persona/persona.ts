@@ -17,6 +17,7 @@ export class PersonaComponent {
   public persona = {
     nivelGerarquico: '',
     estado: 'Activo',
+    codigoFlia: '',
     primerNombre: '',
     segundoNombre: '',
     primerApellido: '',
@@ -37,6 +38,8 @@ export class PersonaComponent {
     telefono: ''
   };
 
+  public anteriorNivelGerarquico = ''; 
+
   // listTarjetas: any[] = [
   //   { titular: 'Juan Perez', numeroTarjeta: '252525262', fechaExpiracion: '11/23', cvv: '123' },
   //   { titular: 'Miguel Gonzalez', numeroTarjeta: '252525262', fechaExpiracion: '11/24', cvv: '312' }
@@ -48,10 +51,10 @@ export class PersonaComponent {
   public mostrarErrores = false;
 
   public opciones = {
-    nivelGerarquico: ['Gerencial', 'Coordinador', 'Operativo', 'Otro'],
+    nivelGerarquico: ['Hombre', 'Mujer', 'Padre y Madre', 'Hijo'],
     estado: ['Activo', 'Inactivo', 'Suspendido'],
     documento: ['Cédula', 'Pasaporte', 'Tarjeta de identidad'],
-    genero: ['Masculino', 'Femenino', 'Otro'],
+    genero: ['Masculino', 'Femenino'],
     escolaridad: ['Primaria', 'Secundaria', 'Técnico', 'Profesional', 'Postgrado'],
     estadoCivil: ['Soltero', 'Casado', 'Divorciado', 'Viudo', 'Unión libre'],
     hijosACargo: ['0', '1', '2', '3', '4', '5', 'Más de 5']
@@ -67,7 +70,51 @@ export class PersonaComponent {
 
   public cargarRegistro(registro: any) {
     this.persona = { ...registro };
+    this.anteriorNivelGerarquico = registro.nivelGerarquico || '';
     this.mostrarErrores = false;
+  }
+
+  public onNivelJerarquicoChange(nuevoNivel: string) {
+    const generoPorNivel = nuevoNivel === 'Hombre' ? 'Masculino' : nuevoNivel === 'Mujer' ? 'Femenino' : '';
+
+    if (this.anteriorNivelGerarquico && nuevoNivel !== this.anteriorNivelGerarquico) {
+      this.persona = {
+        nivelGerarquico: nuevoNivel,
+        estado: 'Activo',
+        codigoFlia: '',
+        primerNombre: '',
+        segundoNombre: '',
+        primerApellido: '',
+        segundoApellido: '',
+        documento: '',
+        identificacion: '',
+        genero: generoPorNivel,
+        vereda: '',
+        escolaridad: '',
+        profesion: '',
+        fechaNacimiento: '',
+        estadoCivil: '',
+        hijosACargo: '0',
+        departamento: '',
+        municipio: '',
+        fechaExpedicion: '',
+        celular: '',
+        telefono: ''
+      };
+      this.errores = {};
+      this.mostrarErrores = false;
+    } else {
+      this.persona.genero = generoPorNivel;
+    }
+
+    this.anteriorNivelGerarquico = nuevoNivel;
+  }
+
+  public setGenero(valor: string) {
+    if (!this.persona.nivelGerarquico) {
+      return;
+    }
+    this.persona.genero = valor;
   }
 
   public guardar() {
@@ -203,6 +250,7 @@ export class PersonaComponent {
     this.persona = {
       nivelGerarquico: '',
       estado: 'Activo',
+      codigoFlia: '',
       primerNombre: '',
       segundoNombre: '',
       primerApellido: '',
@@ -224,5 +272,6 @@ export class PersonaComponent {
     };
     this.buscar = '';
     this.errores = {};
+    this.anteriorNivelGerarquico = '';
   }
 }

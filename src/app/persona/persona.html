@@ -17,10 +17,6 @@
 
   <header class="header-section">
     <div class="header-content">
-      <div>
-        <h1 id="persona-title">Captura de Persona</h1>
-        <p class="header-subtitle">Registra y administra información con una experiencia fluida, moderna y basada en datos.</p>
-      </div>
       <div class="header-info" aria-label="Resumen de captura">
         <span class="info-item">
           <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -37,11 +33,11 @@
     <p>Todos los campos marcados con <span class="required">*</span> son obligatorios. Usa los controles de acción para guardar, actualizar o eliminar registros rápidamente.</p>
   </div>
 
-  <div class="form-status" aria-hidden="true">
+  <!-- <div class="form-status" aria-hidden="true">
     <span class="status-pill"><i class="fa fa-check-circle" aria-hidden="true"></i> Validación instantánea</span>
     <span class="status-pill"><i class="fa fa-mobile" aria-hidden="true"></i> Diseño responsive</span>
     <span class="status-pill"><i class="fa fa-smile" aria-hidden="true"></i> Interfaz clara</span>
-  </div>
+  </div> -->
 
   <form class="person-form" autocomplete="on" novalidate (ngSubmit)="guardar()">
     <div class="form-section">
@@ -49,7 +45,8 @@
       <div class="row g-3">
         <div class="col-12 col-md-6">
           <label class="form-label" for="nivelGerarquico">Nivel jerárquico</label>
-          <select id="nivelGerarquico" class="form-select" [(ngModel)]="persona.nivelGerarquico" name="nivelGerarquico">
+          <select id="nivelGerarquico" class="form-select" [(ngModel)]="persona.nivelGerarquico" name="nivelGerarquico"
+                  (ngModelChange)="onNivelJerarquicoChange($event)">
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.nivelGerarquico; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
@@ -57,9 +54,15 @@
 
         <div class="col-12 col-md-6">
           <label class="form-label" for="estado">Estado</label>
-          <select id="estado" class="form-select" [(ngModel)]="persona.estado" name="estado">
+          <select id="estado" class="form-select" [(ngModel)]="persona.estado" name="estado" [disabled]="!persona.nivelGerarquico">
             <option *ngFor="let opt of opciones.estado; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
+        </div>
+
+        <div class="col-12 col-md-6" *ngIf="persona.nivelGerarquico === 'Hijo'">
+          <label class="form-label" for="codigoFlia">Escriba codigo de Flia o identificación de uno de sus padres</label>
+          <input id="codigoFlia" type="text" class="form-control" [(ngModel)]="persona.codigoFlia"
+                 name="codigoFlia" placeholder="10617... [INTRO]" [disabled]="!persona.nivelGerarquico" />
         </div>
       </div>
     </div>
@@ -72,7 +75,7 @@
                  [class.is-invalid]="mostrarErrores && errores['primerNombre']"
                  [attr.aria-invalid]="mostrarErrores && errores['primerNombre'] ? true : null"
                  aria-describedby="primerNombreError" [(ngModel)]="persona.primerNombre"
-                 name="primerNombre" placeholder="Ej: Juan" autocomplete="given-name" required />
+                 name="primerNombre" placeholder="Ej: Juan" autocomplete="given-name" [disabled]="!persona.nivelGerarquico" required />
           <div id="primerNombreError" class="invalid-feedback" *ngIf="mostrarErrores && errores['primerNombre']">
             {{ errores['primerNombre'] }}
           </div>
@@ -81,7 +84,7 @@
         <div class="col-12 col-md-6 col-xl-3">
           <label class="form-label" for="segundoNombre">Segundo nombre</label>
           <input id="segundoNombre" type="text" class="form-control" [(ngModel)]="persona.segundoNombre"
-                 name="segundoNombre" placeholder="Ej: David" autocomplete="additional-name" />
+                 name="segundoNombre" placeholder="Ej: David" autocomplete="additional-name" [disabled]="!persona.nivelGerarquico" />
         </div>
 
         <div class="col-12 col-md-6 col-xl-3">
@@ -90,7 +93,7 @@
                  [class.is-invalid]="mostrarErrores && errores['primerApellido']"
                  [attr.aria-invalid]="mostrarErrores && errores['primerApellido'] ? true : null"
                  aria-describedby="primerApellidoError" [(ngModel)]="persona.primerApellido"
-                 name="primerApellido" placeholder="Ej: Pérez" autocomplete="family-name" required />
+                 name="primerApellido" placeholder="Ej: Pérez" autocomplete="family-name" [disabled]="!persona.nivelGerarquico" required />
           <div id="primerApellidoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['primerApellido']">
             {{ errores['primerApellido'] }}
           </div>
@@ -99,7 +102,7 @@
         <div class="col-12 col-md-6 col-xl-3">
           <label class="form-label" for="segundoApellido">Segundo apellido</label>
           <input id="segundoApellido" type="text" class="form-control" [(ngModel)]="persona.segundoApellido"
-                 name="segundoApellido" placeholder="Ej: García" autocomplete="family-name" />
+                 name="segundoApellido" placeholder="Ej: García" autocomplete="family-name" [disabled]="!persona.nivelGerarquico" />
         </div>
       </div>
     </div>
@@ -111,7 +114,7 @@
           <label class="form-label" for="documento">Documento <span class="required">*</span></label>
           <select id="documento" class="form-select" [class.is-invalid]="mostrarErrores && errores['documento']"
                   [attr.aria-invalid]="mostrarErrores && errores['documento'] ? true : null"
-                  aria-describedby="documentoError" [(ngModel)]="persona.documento" name="documento" required>
+                  aria-describedby="documentoError" [(ngModel)]="persona.documento" name="documento" [disabled]="!persona.nivelGerarquico" required>
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.documento; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
@@ -127,7 +130,7 @@
                  [attr.aria-invalid]="mostrarErrores && errores['identificacion'] ? true : null"
                  aria-describedby="identificacionError" [(ngModel)]="persona.identificacion"
                  name="identificacion" placeholder="Ej: 10617052" inputmode="numeric"
-                 pattern="[0-9]*" autocomplete="off" required />
+                 pattern="[0-9]*" autocomplete="off" [disabled]="!persona.nivelGerarquico" required />
           <div id="identificacionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['identificacion']">
             {{ errores['identificacion'] }}
           </div>
@@ -135,12 +138,18 @@
 
         <div class="col-12 col-md-4">
           <label class="form-label" for="genero">Género <span class="required">*</span></label>
-          <select id="genero" class="form-select" [class.is-invalid]="mostrarErrores && errores['genero']"
-                  [attr.aria-invalid]="mostrarErrores && errores['genero'] ? true : null"
-                  aria-describedby="generoError" [(ngModel)]="persona.genero" name="genero" required>
-            <option value="">Seleccionar...</option>
-            <option *ngFor="let opt of opciones.genero; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
-          </select>
+          <div class="gender-toggle switch" [class.disabled]="!persona.nivelGerarquico" role="group" aria-label="Seleccione género">
+            <span class="switch-thumb" [class.right]="persona.genero === 'Femenino'"></span>
+            <button type="button" class="switch-option" [class.active]="persona.genero === 'Masculino'"
+                    (click)="setGenero('Masculino')" [disabled]="!persona.nivelGerarquico" aria-pressed="persona.genero === 'Masculino'">
+              M
+            </button>
+            <button type="button" class="switch-option" [class.active]="persona.genero === 'Femenino'"
+                    (click)="setGenero('Femenino')" [disabled]="!persona.nivelGerarquico" aria-pressed="persona.genero === 'Femenino'">
+              F
+            </button>
+          </div>
+          <input type="hidden" id="genero" [(ngModel)]="persona.genero" name="genero" />
           <div id="generoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['genero']">
             {{ errores['genero'] }}
           </div>
@@ -155,7 +164,7 @@
           <label class="form-label" for="vereda">Vereda <span class="required">*</span></label>
           <select id="vereda" class="form-select" [class.is-invalid]="mostrarErrores && errores['vereda']"
                   [attr.aria-invalid]="mostrarErrores && errores['vereda'] ? true : null"
-                  aria-describedby="veredaError" [(ngModel)]="persona.vereda" name="vereda" required>
+                  aria-describedby="veredaError" [(ngModel)]="persona.vereda" name="vereda" [disabled]="!persona.nivelGerarquico" required>
             <option value="">Seleccionar...</option>
             <option value="Vereda 1">Vereda 1</option>
             <option value="Vereda 2">Vereda 2</option>
@@ -170,7 +179,7 @@
           <label class="form-label" for="escolaridad">Escolaridad <span class="required">*</span></label>
           <select id="escolaridad" class="form-select" [class.is-invalid]="mostrarErrores && errores['escolaridad']"
                   [attr.aria-invalid]="mostrarErrores && errores['escolaridad'] ? true : null"
-                  aria-describedby="escolaridadError" [(ngModel)]="persona.escolaridad" name="escolaridad" required>
+                  aria-describedby="escolaridadError" [(ngModel)]="persona.escolaridad" name="escolaridad" [disabled]="!persona.nivelGerarquico" required>
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.escolaridad; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
@@ -181,7 +190,7 @@
 
         <div class="col-12 col-md-4">
           <label class="form-label" for="profesion">Profesión</label>
-          <select id="profesion" class="form-select" [(ngModel)]="persona.profesion" name="profesion">
+          <select id="profesion" class="form-select" [(ngModel)]="persona.profesion" name="profesion" [disabled]="!persona.nivelGerarquico">
             <option value="">Seleccionar...</option>
             <option value="Ingeniero">Ingeniero</option>
             <option value="Técnico">Técnico</option>
@@ -201,7 +210,7 @@
                  [class.is-invalid]="mostrarErrores && errores['fechaNacimiento']"
                  [attr.aria-invalid]="mostrarErrores && errores['fechaNacimiento'] ? true : null"
                  aria-describedby="fechaNacimientoError" [(ngModel)]="persona.fechaNacimiento"
-                 name="fechaNacimiento" required />
+                 name="fechaNacimiento" [disabled]="!persona.nivelGerarquico" required />
           <div id="fechaNacimientoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['fechaNacimiento']">
             {{ errores['fechaNacimiento'] }}
           </div>
@@ -209,7 +218,7 @@
 
         <div class="col-12 col-md-3">
           <label class="form-label" for="estadoCivil">Estado civil</label>
-          <select id="estadoCivil" class="form-select" [(ngModel)]="persona.estadoCivil" name="estadoCivil">
+          <select id="estadoCivil" class="form-select" [(ngModel)]="persona.estadoCivil" name="estadoCivil" [disabled]="!persona.nivelGerarquico">
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.estadoCivil; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
@@ -217,7 +226,7 @@
 
         <div class="col-12 col-md-3">
           <label class="form-label" for="hijosACargo">Hijos a cargo</label>
-          <select id="hijosACargo" class="form-select" [(ngModel)]="persona.hijosACargo" name="hijosACargo">
+          <select id="hijosACargo" class="form-select" [(ngModel)]="persona.hijosACargo" name="hijosACargo" [disabled]="!persona.nivelGerarquico">
             <option *ngFor="let opt of opciones.hijosACargo; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
         </div>
@@ -229,7 +238,7 @@
       <div class="row g-3">
         <div class="col-12 col-md-4">
           <label class="form-label" for="departamento">Departamento</label>
-          <select id="departamento" class="form-select" [(ngModel)]="persona.departamento" name="departamento">
+          <select id="departamento" class="form-select" [(ngModel)]="persona.departamento" name="departamento" [disabled]="!persona.nivelGerarquico">
             <option value="">Seleccionar...</option>
             <option value="Cauca">Cauca</option>
             <option value="Nariño">Nariño</option>
@@ -239,7 +248,7 @@
 
         <div class="col-12 col-md-4">
           <label class="form-label" for="municipio">Municipio</label>
-          <select id="municipio" class="form-select" [(ngModel)]="persona.municipio" name="municipio">
+          <select id="municipio" class="form-select" [(ngModel)]="persona.municipio" name="municipio" [disabled]="!persona.nivelGerarquico">
             <option value="">Seleccionar...</option>
             <option value="Popayán">Popayán</option>
             <option value="Silvia">Silvia</option>
@@ -250,7 +259,7 @@
         <div class="col-12 col-md-4">
           <label class="form-label" for="fechaExpedicion">Fecha de expedición</label>
           <input id="fechaExpedicion" type="date" class="form-control" [(ngModel)]="persona.fechaExpedicion"
-                 name="fechaExpedicion" />
+                 name="fechaExpedicion" [disabled]="!persona.nivelGerarquico" />
         </div>
       </div>
     </div>
@@ -263,7 +272,7 @@
           <input id="celular" type="tel" class="form-control" [class.is-invalid]="mostrarErrores && errores['celular']"
                  [attr.aria-invalid]="mostrarErrores && errores['celular'] ? true : null"
                  aria-describedby="celularError" [(ngModel)]="persona.celular" name="celular"
-                 placeholder="Ej: 3125380120" inputmode="numeric" pattern="[0-9]*" autocomplete="tel" />
+                 placeholder="Ej: 3125380120" inputmode="numeric" pattern="[0-9]*" autocomplete="tel" [disabled]="!persona.nivelGerarquico" />
           <div id="celularError" class="invalid-feedback" *ngIf="mostrarErrores && errores['celular']">
             {{ errores['celular'] }}
           </div>
@@ -274,7 +283,7 @@
           <input id="telefono" type="tel" class="form-control" [class.is-invalid]="mostrarErrores && errores['telefono']"
                  [attr.aria-invalid]="mostrarErrores && errores['telefono'] ? true : null"
                  aria-describedby="telefonoError" [(ngModel)]="persona.telefono" name="telefono"
-                 placeholder="Ej: 8282424" inputmode="numeric" pattern="[0-9]*" autocomplete="tel" />
+                 placeholder="Ej: 8282424" inputmode="numeric" pattern="[0-9]*" autocomplete="tel" [disabled]="!persona.nivelGerarquico" />
           <div id="telefonoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['telefono']">
             {{ errores['telefono'] }}
           </div>
@@ -284,16 +293,16 @@
 
     <div class="form-section">
       <div class="button-group" aria-label="Acciones del formulario">
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" [disabled]="!persona.nivelGerarquico">
           <i class="fa fa-save" aria-hidden="true"></i> REGISTRAR
         </button>
-        <button type="button" class="btn btn-success" (click)="actualizar()">
+        <button type="button" class="btn btn-success" (click)="actualizar()" [disabled]="!persona.nivelGerarquico">
           <i class="fa fa-edit" aria-hidden="true"></i> ACTUALIZAR
         </button>
-        <button type="button" class="btn btn-danger" (click)="cancelar()">
+        <button type="button" class="btn btn-danger" (click)="cancelar()" [disabled]="!persona.nivelGerarquico">
           <i class="fa fa-times" aria-hidden="true"></i> CANCELAR
         </button>
-        <button type="button" class="btn btn-warning" (click)="eliminar()">
+        <button type="button" class="btn btn-warning" (click)="eliminar()" [disabled]="!persona.nivelGerarquico">
           <i class="fa fa-trash" aria-hidden="true"></i> ELIMINAR
         </button>
       </div>
