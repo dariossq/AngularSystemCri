@@ -235,6 +235,43 @@
       }
     }
 
+    .wizard-header {
+      padding: 1rem 1.5rem;
+      background: transparent;
+      .wizard-steps {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0; /* space controlled by justify-content */
+        padding: 0 0.25rem;
+      }
+
+      .wizard-step {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #e6eefc;
+        border: none;
+        box-shadow: none;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        flex: 1 1 0;
+        margin: 0 6px;
+        display: inline-block;
+      }
+
+      .wizard-step.active {
+        background: #0d6efd;
+        box-shadow: 0 6px 16px rgba(13, 110, 253, 0.18);
+        transform: scale(1.15);
+      }
+
+      .wizard-title {
+        padding-top: 0.5rem;
+        color: #344152;
+      }
+    }
+
     .form-label {
       font-weight: 600;
       font-size: 0.9rem;

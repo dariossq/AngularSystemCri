@@ -52,6 +52,15 @@ export class PersonaComponent {
   public errores: { [key: string]: string } = {};
   public mostrarErrores = false;
 
+  public currentStep = 1;
+  public totalSteps = 4;
+  public stepTitles = [
+    'Información Personal',
+    'Identificación',
+    'Ubicación y Educación',
+    'Datos Demográficos y Contacto'
+  ];
+
   public opciones = {
     nivelGerarquico: ['Hombre', 'Mujer', 'Padre y Madre', 'Hijo'],
     estado: ['Activo', 'Inactivo', 'Suspendido'],
@@ -70,8 +79,70 @@ export class PersonaComponent {
     return registro.identificacion;
   }
 
+  public nextStep() {
+    if (this.currentStep < this.totalSteps) {
+      if (this.validateStep(this.currentStep)) {
+        this.currentStep += 1;
+        this.mostrarErrores = false;
+      }
+    }
+  }
+
+  public previousStep() {
+    if (this.currentStep > 1) {
+      this.currentStep -= 1;
+    }
+  }
+
+  public goToStep(step: number) {
+    if (step >= 1 && step <= this.totalSteps) {
+      if (step > this.currentStep) {
+        if (!this.validateStep(this.currentStep)) {
+          return;
+        }
+      }
+      this.currentStep = step;
+      this.mostrarErrores = false;
+    }
+  }
+
+  // Validación por paso
+  public validateStep(step: number): boolean {
+    this.mostrarErrores = true;
+    const pasoErrores: { [key: string]: string } = {};
+
+    if (step === 1) {
+      if (!this.persona.nivelGerarquico) pasoErrores['nivelGerarquico'] = 'Nivel jerárquico es requerido';
+      if (!this.persona.primerNombre || !this.persona.primerNombre.trim()) pasoErrores['primerNombre'] = 'Primer nombre es requerido';
+      if (!this.persona.primerApellido || !this.persona.primerApellido.trim()) pasoErrores['primerApellido'] = 'Primer apellido es requerido';
+    }
+
+    if (step === 2) {
+      if (!this.persona.documento) pasoErrores['documento'] = 'Documento es requerido';
+      if (!this.persona.identificacion || !this.persona.identificacion.trim()) pasoErrores['identificacion'] = 'Identificación es requerida';
+      if (!this.persona.genero) pasoErrores['genero'] = 'Género es requerido';
+    }
+
+    if (step === 3) {
+      if (!this.persona.vereda) pasoErrores['vereda'] = 'Vereda es requerida';
+      if (!this.persona.escolaridad) pasoErrores['escolaridad'] = 'Escolaridad es requerida';
+    }
+
+    if (step === 4) {
+      if (!this.persona.fechaNacimiento) pasoErrores['fechaNacimiento'] = 'Fecha de nacimiento es requerida';
+      if (this.persona.nivelGerarquico === 'Hijo') {
+        this.persona.estadoCivil = 'Soltero';
+        this.persona.hijosACargo = '0';
+      }
+    }
+
+    this.errores = pasoErrores;
+    return Object.keys(pasoErrores).length === 0;
+  }
+
   public cargarRegistro(registro: any) {
     this.persona = { ...registro };
+    this.currentStep = 1;
     if (registro.nivelGerarquico === 'Hijo') {
       this.persona.estadoCivil = 'Soltero';
       this.persona.hijosACargo = '0';
@@ -389,5 +460,6 @@ export class PersonaComponent {
     this.buscar = '';
     this.errores = {};
     this.anteriorNivelGerarquico = '';
+    this.currentStep = 1;
   }
 }

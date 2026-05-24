@@ -56,7 +56,19 @@
   </div> -->
 
   <form class="person-form" autocomplete="on" novalidate (ngSubmit)="guardar()">
-    <div class="form-section">
+    <div class="wizard-header mb-4">
+      <div class="wizard-steps mb-2" role="tablist" aria-label="Progreso del formulario">
+        <button type="button" class="wizard-step" [class.active]="currentStep === 1" (click)="goToStep(1)" aria-label="Paso 1"></button>
+        <button type="button" class="wizard-step" [class.active]="currentStep === 2" (click)="goToStep(2)" aria-label="Paso 2"></button>
+        <button type="button" class="wizard-step" [class.active]="currentStep === 3" (click)="goToStep(3)" aria-label="Paso 3"></button>
+        <button type="button" class="wizard-step" [class.active]="currentStep === 4" (click)="goToStep(4)" aria-label="Paso 4"></button>
+      </div>
+      <div class="wizard-title mb-3">
+        <strong>Paso {{ currentStep }} de {{ totalSteps }}</strong> - {{ stepTitles[currentStep - 1] }}
+      </div>
+    </div>
+
+    <div *ngIf="currentStep === 1" class="form-section">
       <h5 class="section-title"><i class="fa fa-user" aria-hidden="true"></i> Información Personal</h5>
       <div class="row g-3">
         <div class="col-12 col-md-6">
@@ -66,6 +78,9 @@
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.nivelGerarquico; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
+          <div id="nivelGerarquicoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['nivelGerarquico']">
+            {{ errores['nivelGerarquico'] }}
+          </div>
         </div>
 
         <div class="col-12 col-md-6">
@@ -81,10 +96,10 @@
                  name="codigoFlia" placeholder="10617... [INTRO]" [disabled]="!persona.nivelGerarquico" />
         </div>
       </div>
-    </div>
+      </div>
 
-    <div class="form-section">
-      <div class="row g-3">
+      <div *ngIf="currentStep === 1" class="form-section">
+        <div class="row g-3">
         <div class="col-12 col-md-6 col-xl-3">
           <label class="form-label" for="primerNombre">Primer nombre <span class="required">*</span></label>
           <input id="primerNombre" type="text" class="form-control"
@@ -123,7 +138,7 @@
       </div>
     </div>
 
-    <div class="form-section">
+    <div *ngIf="currentStep === 2" class="form-section">
       <h5 class="section-title"><i class="fa fa-id-card" aria-hidden="true"></i> Identificación</h5>
       <div class="row g-3">
         <div class="col-12 col-md-4">
@@ -173,7 +188,7 @@
       </div>
     </div>
 
-    <div class="form-section">
+    <div *ngIf="currentStep === 3" class="form-section">
       <h5 class="section-title"><i class="fa fa-map-marker-alt" aria-hidden="true"></i> Ubicación y Educación</h5>
       <div class="row g-3">
         <div class="col-12 col-md-4">
@@ -217,7 +232,7 @@
       </div>
     </div>
 
-    <div class="form-section">
+    <div *ngIf="currentStep === 4" class="form-section">
       <h5 class="section-title"><i class="fa fa-chart-pie" aria-hidden="true"></i> Datos Demográficos</h5>
       <div class="row g-3">
         <div class="col-12 col-md-3">
@@ -249,7 +264,7 @@
       </div>
     </div>
 
-    <div class="form-section">
+    <div *ngIf="currentStep === 4" class="form-section">
       <h5 class="section-title"><i class="fa fa-calendar-alt" aria-hidden="true"></i> Lugar y Fecha de Expedición</h5>
       <div class="row g-3">
         <div class="col-12 col-md-4">
@@ -280,7 +295,7 @@
       </div>
     </div>
 
-    <div class="form-section">
+    <div *ngIf="currentStep === 4" class="form-section">
       <h5 class="section-title"><i class="fa fa-phone" aria-hidden="true"></i> Contacto</h5>
       <div class="row g-3">
         <div class="col-12 col-md-6">
@@ -308,6 +323,13 @@
     </div>
 
     <div class="form-section">
+      <div class="wizard-navigation d-flex justify-content-between mb-3">
+        <button type="button" class="btn btn-secondary" (click)="previousStep()" [disabled]="currentStep === 1">Anterior</button>
+        <button type="button" class="btn btn-secondary" (click)="nextStep()" [disabled]="currentStep === totalSteps">Siguiente</button>
+      </div>
+    </div>
+
+    <div *ngIf="currentStep === totalSteps" class="form-section">
       <div class="button-group" aria-label="Acciones del formulario">
         <button type="submit" class="btn btn-primary" [disabled]="!persona.nivelGerarquico">
           <i class="fa fa-save" aria-hidden="true"></i> REGISTRAR
