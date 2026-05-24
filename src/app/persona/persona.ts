@@ -72,6 +72,10 @@ export class PersonaComponent {
 
   public cargarRegistro(registro: any) {
     this.persona = { ...registro };
+    if (registro.nivelGerarquico === 'Hijo') {
+      this.persona.estadoCivil = 'Soltero';
+      this.persona.hijosACargo = '0';
+    }
     this.anteriorNivelGerarquico = registro.nivelGerarquico || '';
     this.mostrarErrores = false;
   }
@@ -95,7 +99,7 @@ export class PersonaComponent {
         escolaridad: '',
         profesion: '',
         fechaNacimiento: '',
-        estadoCivil: '',
+        estadoCivil: nuevoNivel === 'Hijo' ? 'Soltero' : '',
         hijosACargo: '0',
         departamento: '',
         municipio: '',
@@ -107,6 +111,11 @@ export class PersonaComponent {
       this.mostrarErrores = false;
     } else {
       this.persona.genero = generoPorNivel;
+    }
+
+    if (nuevoNivel === 'Hijo') {
+      this.persona.hijosACargo = '0';
+      this.persona.estadoCivil = 'Soltero';
     }
 
     this.anteriorNivelGerarquico = nuevoNivel;

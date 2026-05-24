@@ -234,7 +234,7 @@
 
         <div class="col-12 col-md-3">
           <label class="form-label" for="estadoCivil">Estado civil</label>
-          <select id="estadoCivil" class="form-select" [(ngModel)]="persona.estadoCivil" name="estadoCivil" [disabled]="!persona.nivelGerarquico">
+          <select id="estadoCivil" class="form-select" [(ngModel)]="persona.estadoCivil" name="estadoCivil" [disabled]="!persona.nivelGerarquico || persona.nivelGerarquico === 'Hijo'">
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.estadoCivil; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
@@ -242,7 +242,7 @@
 
         <div class="col-12 col-md-3">
           <label class="form-label" for="hijosACargo">Hijos a cargo</label>
-          <select id="hijosACargo" class="form-select" [(ngModel)]="persona.hijosACargo" name="hijosACargo" [disabled]="!persona.nivelGerarquico">
+          <select id="hijosACargo" class="form-select" [(ngModel)]="persona.hijosACargo" name="hijosACargo" [disabled]="!persona.nivelGerarquico || persona.nivelGerarquico === 'Hijo'">
             <option *ngFor="let opt of opciones.hijosACargo; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
         </div>
