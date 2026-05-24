@@ -15,6 +15,22 @@
     </div>
   </div>
 
+  <!-- Modal de error -->
+  <div class="modal-overlay" *ngIf="mensajeError">
+    <div class="modal-popup" role="alert" aria-live="assertive">
+      <div class="modal-content">
+        <div class="modal-icon error">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        </div>
+        <h3 class="modal-title">Validación requerida</h3>
+        <p class="modal-message">{{ mensajeError }}</p>
+        <button type="button" class="btn-modal-close" (click)="cerrarMensajeError()" aria-label="Cerrar mensaje">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <header class="header-section">
     <div class="header-content">
       <div class="header-info" aria-label="Resumen de captura">
@@ -72,10 +88,10 @@
         <div class="col-12 col-md-6 col-xl-3">
           <label class="form-label" for="primerNombre">Primer nombre <span class="required">*</span></label>
           <input id="primerNombre" type="text" class="form-control"
-                 [class.is-invalid]="mostrarErrores && errores['primerNombre']"
-                 [attr.aria-invalid]="mostrarErrores && errores['primerNombre'] ? true : null"
-                 aria-describedby="primerNombreError" [(ngModel)]="persona.primerNombre"
-                 name="primerNombre" placeholder="Ej: Juan" autocomplete="given-name" [disabled]="!persona.nivelGerarquico" required />
+               [class.is-invalid]="(mostrarErrores && errores['primerNombre']) || errores['primerNombre']"
+               [attr.aria-invalid]="(mostrarErrores && errores['primerNombre']) || errores['primerNombre'] ? true : null"
+               aria-describedby="primerNombreError" [(ngModel)]="persona.primerNombre" (ngModelChange)="limpiarError('primerNombre',$event)" (blur)="validarCampo('primerNombre')"
+               name="primerNombre" placeholder="Ej: Juan" autocomplete="given-name" [disabled]="!persona.nivelGerarquico" required />
           <div id="primerNombreError" class="invalid-feedback" *ngIf="mostrarErrores && errores['primerNombre']">
             {{ errores['primerNombre'] }}
           </div>
@@ -84,16 +100,16 @@
         <div class="col-12 col-md-6 col-xl-3">
           <label class="form-label" for="segundoNombre">Segundo nombre</label>
           <input id="segundoNombre" type="text" class="form-control" [(ngModel)]="persona.segundoNombre"
-                 name="segundoNombre" placeholder="Ej: David" autocomplete="additional-name" [disabled]="!persona.nivelGerarquico" />
+               name="segundoNombre" placeholder="Ej: David" autocomplete="additional-name" [disabled]="!persona.nivelGerarquico" />
         </div>
 
         <div class="col-12 col-md-6 col-xl-3">
           <label class="form-label" for="primerApellido">Primer apellido <span class="required">*</span></label>
           <input id="primerApellido" type="text" class="form-control"
-                 [class.is-invalid]="mostrarErrores && errores['primerApellido']"
-                 [attr.aria-invalid]="mostrarErrores && errores['primerApellido'] ? true : null"
-                 aria-describedby="primerApellidoError" [(ngModel)]="persona.primerApellido"
-                 name="primerApellido" placeholder="Ej: Pérez" autocomplete="family-name" [disabled]="!persona.nivelGerarquico" required />
+               [class.is-invalid]="(mostrarErrores && errores['primerApellido']) || errores['primerApellido']"
+               [attr.aria-invalid]="(mostrarErrores && errores['primerApellido']) || errores['primerApellido'] ? true : null"
+               aria-describedby="primerApellidoError" [(ngModel)]="persona.primerApellido" (ngModelChange)="limpiarError('primerApellido',$event)" (blur)="validarCampo('primerApellido')"
+               name="primerApellido" placeholder="Ej: Pérez" autocomplete="family-name" [disabled]="!persona.nivelGerarquico" required />
           <div id="primerApellidoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['primerApellido']">
             {{ errores['primerApellido'] }}
           </div>
@@ -113,8 +129,8 @@
         <div class="col-12 col-md-4">
           <label class="form-label" for="documento">Documento <span class="required">*</span></label>
           <select id="documento" class="form-select" [class.is-invalid]="mostrarErrores && errores['documento']"
-                  [attr.aria-invalid]="mostrarErrores && errores['documento'] ? true : null"
-                  aria-describedby="documentoError" [(ngModel)]="persona.documento" name="documento" [disabled]="!persona.nivelGerarquico" required>
+              [attr.aria-invalid]="mostrarErrores && errores['documento'] ? true : null"
+              aria-describedby="documentoError" [(ngModel)]="persona.documento" (ngModelChange)="limpiarError('documento',$event)" (blur)="validarCampo('documento')" name="documento" [disabled]="!persona.nivelGerarquico" required>
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.documento; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
@@ -126,11 +142,11 @@
         <div class="col-12 col-md-4">
           <label class="form-label" for="identificacion">Identificación <span class="required">*</span></label>
           <input id="identificacion" type="text" class="form-control"
-                 [class.is-invalid]="mostrarErrores && errores['identificacion']"
-                 [attr.aria-invalid]="mostrarErrores && errores['identificacion'] ? true : null"
-                 aria-describedby="identificacionError" [(ngModel)]="persona.identificacion"
-                 name="identificacion" placeholder="Ej: 10617052" inputmode="numeric"
-                 pattern="[0-9]*" autocomplete="off" [disabled]="!persona.nivelGerarquico" required />
+               [class.is-invalid]="(mostrarErrores && errores['identificacion']) || errores['identificacion']"
+               [attr.aria-invalid]="(mostrarErrores && errores['identificacion']) || errores['identificacion'] ? true : null"
+               aria-describedby="identificacionError" [(ngModel)]="persona.identificacion" (ngModelChange)="limpiarError('identificacion',$event)" (blur)="validarCampo('identificacion')"
+               name="identificacion" placeholder="Ej: 10617052" inputmode="numeric"
+               pattern="[0-9]*" autocomplete="off" [disabled]="!persona.nivelGerarquico" required />
           <div id="identificacionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['identificacion']">
             {{ errores['identificacion'] }}
           </div>
@@ -150,7 +166,7 @@
             </button>
           </div>
           <input type="hidden" id="genero" [(ngModel)]="persona.genero" name="genero" />
-          <div id="generoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['genero']">
+          <div id="generoError" class="invalid-feedback" *ngIf="errores['genero']">
             {{ errores['genero'] }}
           </div>
         </div>
@@ -163,8 +179,8 @@
         <div class="col-12 col-md-4">
           <label class="form-label" for="vereda">Vereda <span class="required">*</span></label>
           <select id="vereda" class="form-select" [class.is-invalid]="mostrarErrores && errores['vereda']"
-                  [attr.aria-invalid]="mostrarErrores && errores['vereda'] ? true : null"
-                  aria-describedby="veredaError" [(ngModel)]="persona.vereda" name="vereda" [disabled]="!persona.nivelGerarquico" required>
+              [attr.aria-invalid]="mostrarErrores && errores['vereda'] ? true : null"
+              aria-describedby="veredaError" [(ngModel)]="persona.vereda" (ngModelChange)="limpiarError('vereda',$event)" (blur)="validarCampo('vereda')" name="vereda" [disabled]="!persona.nivelGerarquico" required>
             <option value="">Seleccionar...</option>
             <option value="Vereda 1">Vereda 1</option>
             <option value="Vereda 2">Vereda 2</option>
@@ -178,8 +194,8 @@
         <div class="col-12 col-md-4">
           <label class="form-label" for="escolaridad">Escolaridad <span class="required">*</span></label>
           <select id="escolaridad" class="form-select" [class.is-invalid]="mostrarErrores && errores['escolaridad']"
-                  [attr.aria-invalid]="mostrarErrores && errores['escolaridad'] ? true : null"
-                  aria-describedby="escolaridadError" [(ngModel)]="persona.escolaridad" name="escolaridad" [disabled]="!persona.nivelGerarquico" required>
+              [attr.aria-invalid]="mostrarErrores && errores['escolaridad'] ? true : null"
+              aria-describedby="escolaridadError" [(ngModel)]="persona.escolaridad" (ngModelChange)="limpiarError('escolaridad',$event)" (blur)="validarCampo('escolaridad')" name="escolaridad" [disabled]="!persona.nivelGerarquico" required>
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.escolaridad; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
@@ -207,10 +223,10 @@
         <div class="col-12 col-md-3">
           <label class="form-label" for="fechaNacimiento">Fecha de nacimiento <span class="required">*</span></label>
           <input id="fechaNacimiento" type="date" class="form-control"
-                 [class.is-invalid]="mostrarErrores && errores['fechaNacimiento']"
-                 [attr.aria-invalid]="mostrarErrores && errores['fechaNacimiento'] ? true : null"
-                 aria-describedby="fechaNacimientoError" [(ngModel)]="persona.fechaNacimiento"
-                 name="fechaNacimiento" [disabled]="!persona.nivelGerarquico" required />
+               [class.is-invalid]="(mostrarErrores && errores['fechaNacimiento']) || errores['fechaNacimiento']"
+               [attr.aria-invalid]="(mostrarErrores && errores['fechaNacimiento']) || errores['fechaNacimiento'] ? true : null"
+               aria-describedby="fechaNacimientoError" [(ngModel)]="persona.fechaNacimiento" (ngModelChange)="limpiarError('fechaNacimiento',$event)" (blur)="validarCampo('fechaNacimiento')"
+               name="fechaNacimiento" [disabled]="!persona.nivelGerarquico" required />
           <div id="fechaNacimientoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['fechaNacimiento']">
             {{ errores['fechaNacimiento'] }}
           </div>

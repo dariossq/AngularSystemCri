@@ -52,6 +52,12 @@
       color: white;
       animation: iconPulse 0.6s ease-out;
     }
+
+    &.error {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      color: white;
+      animation: iconShake 0.6s ease-out;
+    }
   }
 
   .modal-title {
@@ -660,6 +666,23 @@
   }
   100% {
     transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes iconShake {
+  0% {
+    transform: scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  75% {
+    transform: scale(1) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
     opacity: 1;
   }
 }
