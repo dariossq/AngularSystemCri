@@ -41,17 +41,10 @@ export class PersonaComponent {
   };
 
   public anteriorNivelGerarquico = ''; 
-
-  // listTarjetas: any[] = [
-  //   { titular: 'Juan Perez', numeroTarjeta: '252525262', fechaExpiracion: '11/23', cvv: '123' },
-  //   { titular: 'Miguel Gonzalez', numeroTarjeta: '252525262', fechaExpiracion: '11/24', cvv: '312' }
-  // ];
-
   public registros: any[] = [];
   public buscar = '';
   public errores: { [key: string]: string } = {};
   public mostrarErrores = false;
-
   public currentStep = 1;
   public totalSteps = 4;
   public stepTitles = [
@@ -203,6 +196,7 @@ export class PersonaComponent {
     }
   }
 
+  // Valida todos los campos antes de guardar o actualizar
   public guardar() {
     this.mostrarErrores = true;
     if (this.validarCompleto()) {
@@ -215,6 +209,7 @@ export class PersonaComponent {
     }
   }
 
+  // Valida todos los campos antes de actualizar un registro existente
   public actualizar() {
     this.mostrarErrores = true;
     if (this.validarCompleto()) {
@@ -232,11 +227,13 @@ export class PersonaComponent {
     }
   }
 
+  // Cancela la edición o creación y limpia el formulario
   public cancelar() {
     this.limpiar();
     this.mostrarErrores = false;
   }
 
+  // Elimina un registro existente después de confirmar la acción
   public eliminar() {
     if (!this.persona.identificacion?.trim()) {
       this.errores['identificacion'] = 'Seleccione un registro para eliminar';
@@ -255,6 +252,7 @@ export class PersonaComponent {
     }
   }
 
+  // Busca un registro por identificación y carga sus datos en el formulario
   public buscarRegistro() {
     if (!this.buscar?.trim()) {
       this.errores['buscar'] = 'Ingrese una identificación para buscar';
@@ -272,6 +270,7 @@ export class PersonaComponent {
     }
   }
 
+  // Limpia el mensaje de éxito después de mostrarlo durante un tiempo determinado
   public cerrarMensaje() {
     this.mensajeExito = '';
     if (this.timerMensaje) {
@@ -279,6 +278,7 @@ export class PersonaComponent {
     }
   }
 
+  // Limpia el mensaje de error después de mostrarlo durante un tiempo determinado
   public cerrarMensajeError() {
     this.mensajeError = '';
     if (this.timerError) {
@@ -286,6 +286,7 @@ export class PersonaComponent {
     }
   }
 
+  // Muestra un mensaje de éxito y lo oculta automáticamente después de 4 segundos
   private mostrarMensajeExito(mensaje: string) {
     this.mensajeExito = mensaje;
     if (this.timerMensaje) {
@@ -294,6 +295,7 @@ export class PersonaComponent {
     this.timerMensaje = setTimeout(() => this.mensajeExito = '', 4000);
   }
 
+  // Muestra un mensaje de error y lo oculta automáticamente después de 3 segundos
   private mostrarMensajeError(mensaje: string) {
     this.mensajeError = mensaje;
     if (this.timerError) {
@@ -307,7 +309,7 @@ export class PersonaComponent {
     const valor = (this.persona as any)[campo];
     // campos que sólo requieren existencia
     const requiredOnly = ['documento', 'genero', 'vereda', 'escolaridad', 'fechaNacimiento'];
-
+    // validación específica para campos que sólo requieren existencia
     if (requiredOnly.includes(campo)) {
       if (!valor) {
         this.errores[campo] = this.mensajePorCampo(campo);
@@ -317,6 +319,7 @@ export class PersonaComponent {
       return;
     }
 
+    // validación general de campos obligatorios
     if (!valor || (typeof valor === 'string' && !valor.trim())) {
       this.errores[campo] = this.mensajePorCampo(campo);
       return;
@@ -324,6 +327,7 @@ export class PersonaComponent {
 
     // validaciones específicas
     if (campo === 'identificacion') {
+      // validación de solo números y longitud mínima
       if (!/^\d+$/.test(valor)) {
         this.errores[campo] = 'Identificación debe contener solo números';
         return;
@@ -334,6 +338,7 @@ export class PersonaComponent {
       }
     }
 
+    // validación de celular y teléfono: solo números y longitud mínima para celular
     if (campo === 'celular') {
       if (valor && !/^\d+$/.test(valor)) {
         this.errores[campo] = 'Celular debe contener solo números';
@@ -345,6 +350,7 @@ export class PersonaComponent {
       }
     }
 
+    // validación de teléfono: solo números, sin longitud mínima específica
     if (campo === 'telefono') {
       if (valor && !/^\d+$/.test(valor)) {
         this.errores[campo] = 'Teléfono debe contener solo números';
@@ -370,6 +376,7 @@ export class PersonaComponent {
     }
   }
 
+  // Devuelve el mensaje de error específico para cada campo
   private mensajePorCampo(campo: string) {
     switch (campo) {
       case 'primerNombre': return 'Primer nombre es requerido';
@@ -384,6 +391,7 @@ export class PersonaComponent {
     }
   }
 
+  // Valida todos los campos del formulario antes de guardar o actualizar un registro
   private validarCompleto(): boolean {
     this.errores = {};
 
@@ -433,6 +441,7 @@ export class PersonaComponent {
     return Object.keys(this.errores).length === 0;
   }
 
+  // Limpia el formulario y resetea el estado a su configuración inicial
   private limpiar() {
     this.persona = {
       nivelGerarquico: '',

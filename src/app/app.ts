@@ -1,9 +1,12 @@
-import { Component, HostListener, signal } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Component, HostListener, OnDestroy, signal, inject } from '@angular/core';
+import { Router, NavigationEnd, RouterOutlet, RouterLink } from '@angular/router';
+import { filter } from 'rxjs';
+import { AuthService } from './services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, CommonModule],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
@@ -12,6 +15,20 @@ export class App {
   protected readonly menuOpen = signal(true);
   protected readonly cabildoOpen = signal(false);
   protected readonly guardiaOpen = signal(false);
+
+  // Inyectar servicio de autenticación y router
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  // Obtener usuario actual del servicio de autenticación
+  protected currentUser = this.authService.getCurrentUser();
+  protected isAuthenticated = this.authService.isAuthenticated();
+  protected showShell = signal(this.router.url !== '/login' && this.isAuthenticated());
+  private readonly routerSubscription = this.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+  ).subscribe(() => {
+    this.showShell.set(this.router.url !== '/login' && this.isAuthenticated());
+  });
 
   public toggleMenu() {
     this.menuOpen.update(value => {
@@ -50,6 +67,11 @@ export class App {
     });
   }
 
+  // Método para logout
+  protected logout(): void {
+    this.authService.logout();
+  }
+
   public selectCabildo() {
     this.cabildoOpen.set(true);
     this.guardiaOpen.set(false);
@@ -68,5 +90,9 @@ export class App {
       this.cabildoOpen.set(false);
       this.guardiaOpen.set(false);
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
   }
 }

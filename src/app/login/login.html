@@ -1,0 +1,319 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>SystemCri</h1>
+      <p class="subtitle">{{ isLoginMode() ? 'Inicia Sesión' : 'Crear Cuenta' }}</p>
+    </div>
+
+    <!-- Mensajes de error y éxito -->
+    <div class="message-container">
+      @if (errorMessage()) {
+        <div class="alert alert-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          {{ errorMessage() }}
+        </div>
+      }
+      @if (successMessage()) {
+        <div class="alert alert-success">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          {{ successMessage() }}
+        </div>
+      }
+    </div>
+
+    <!-- FORMULARIO DE LOGIN -->
+    @if (isLoginMode()) {
+      <form (ngSubmit)="onLogin()" class="form">
+        <!-- Campo Usuario -->
+        <div class="form-group">
+          <label for="login-username">Usuario</label>
+          <input
+            id="login-username"
+            type="text"
+            [(ngModel)]="loginUsername"
+            name="loginUsername"
+            placeholder="Ingresa tu usuario"
+            [disabled]="isLoading()"
+            required
+          />
+        </div>
+
+        <!-- Campo Contraseña -->
+        <div class="form-group">
+          <label for="login-password">Contraseña</label>
+          <div class="password-input-wrapper">
+            <input
+              id="login-password"
+              [type]="showPassword() ? 'text' : 'password'"
+              [(ngModel)]="loginPassword"
+              name="loginPassword"
+              placeholder="Ingresa tu contraseña"
+              [disabled]="isLoading()"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="togglePasswordVisibility()"
+              [disabled]="isLoading()"
+            >
+              @if (showPassword()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              } @else {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                  ></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              }
+            </button>
+          </div>
+        </div>
+
+        <!-- Botón Login -->
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="spinner"></span>
+            Iniciando sesión...
+          } @else {
+            Iniciar Sesión
+          }
+        </button>
+
+        <!-- Link para cambiar a registro -->
+        <div class="form-footer">
+          <p>
+            ¿No tienes cuenta?
+            <button type="button" class="link-btn" (click)="toggleMode()">
+              Regístrate aquí
+            </button>
+          </p>
+        </div>
+
+        <!-- Credenciales de prueba -->
+        <div class="test-credentials">
+          <p><strong>Credenciales de prueba:</strong></p>
+          <ul>
+            <li>Usuario: <code>admin</code> | Contraseña: <code>admin123</code></li>
+            <li>Usuario: <code>usuario</code> | Contraseña: <code>usuario123</code></li>
+          </ul>
+        </div>
+      </form>
+    }
+
+    <!-- FORMULARIO DE REGISTRO -->
+    @if (!isLoginMode()) {
+      <form (ngSubmit)="onRegister()" class="form">
+        <!-- Campo Usuario -->
+        <div class="form-group">
+          <label for="register-username">Usuario</label>
+          <input
+            id="register-username"
+            type="text"
+            [(ngModel)]="registerUsername"
+            name="registerUsername"
+            placeholder="Elige un usuario"
+            [disabled]="isLoading()"
+            required
+          />
+        </div>
+
+        <!-- Campo Email -->
+        <div class="form-group">
+          <label for="register-email">Email</label>
+          <input
+            id="register-email"
+            type="email"
+            [(ngModel)]="registerEmail"
+            name="registerEmail"
+            placeholder="Ingresa tu email"
+            [disabled]="isLoading()"
+            required
+          />
+        </div>
+
+        <!-- Campo Contraseña -->
+        <div class="form-group">
+          <label for="register-password">Contraseña</label>
+          <div class="password-input-wrapper">
+            <input
+              id="register-password"
+              [type]="showPassword() ? 'text' : 'password'"
+              [(ngModel)]="registerPassword"
+              name="registerPassword"
+              placeholder="Mínimo 6 caracteres"
+              [disabled]="isLoading()"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="togglePasswordVisibility()"
+              [disabled]="isLoading()"
+            >
+              @if (showPassword()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              } @else {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                  ></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              }
+            </button>
+          </div>
+        </div>
+
+        <!-- Campo Confirmar Contraseña -->
+        <div class="form-group">
+          <label for="register-confirm-password">Confirmar Contraseña</label>
+          <div class="password-input-wrapper">
+            <input
+              id="register-confirm-password"
+              [type]="showConfirmPassword() ? 'text' : 'password'"
+              [(ngModel)]="registerConfirmPassword"
+              name="registerConfirmPassword"
+              placeholder="Confirma tu contraseña"
+              [disabled]="isLoading()"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="toggleConfirmPasswordVisibility()"
+              [disabled]="isLoading()"
+            >
+              @if (showConfirmPassword()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              } @else {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                  ></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              }
+            </button>
+          </div>
+        </div>
+
+        <!-- Botón Registro -->
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="spinner"></span>
+            Creando cuenta...
+          } @else {
+            Crear Cuenta
+          }
+        </button>
+
+        <!-- Link para cambiar a login -->
+        <div class="form-footer">
+          <p>
+            ¿Ya tienes cuenta?
+            <button type="button" class="link-btn" (click)="toggleMode()">
+              Inicia sesión
+            </button>
+          </p>
+        </div>
+      </form>
+    }
+  </div>
+</div>
