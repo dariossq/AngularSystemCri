@@ -17,6 +17,12 @@ export class Login {
   // Datos del formulario de login
   protected loginUsername = signal('');
   protected loginPassword = signal('');
+  // Empresas disponibles y selección
+  protected companies = [
+    { id: 'TERRITORIO1', name: 'TERRITORIO1' },
+    { id: 'SYSTEMCRI', name: 'SYSTEMCRI' }
+  ];
+  protected selectedCompany = signal('');
 
   // Datos del formulario de registro
   protected registerUsername = signal('');
@@ -52,7 +58,7 @@ export class Login {
   protected onLogin(): void {
     this.clearMessages();
 
-    if (!this.loginUsername() || !this.loginPassword()) {
+    if (!this.selectedCompany() || !this.loginUsername() || !this.loginPassword()) {
       this.errorMessage.set('Por favor completa todos los campos');
       return;
     }

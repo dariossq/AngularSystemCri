@@ -50,6 +50,14 @@
     <!-- FORMULARIO DE LOGIN -->
     @if (isLoginMode()) {
       <form (ngSubmit)="onLogin()" class="form">
+        <!-- Selector de empresa -->
+        <div class="form-group company-group">
+          <label for="company-select">Empresa</label>
+          <select id="company-select" name="selectedCompany" [(ngModel)]="selectedCompany" class="company-select" required>
+            <option value="" disabled [selected]="!selectedCompany()">Seleccione empresa</option>
+            <option *ngFor="let c of companies" [value]="c.id">{{ c.name }}</option>
+          </select>
+        </div>
         <!-- Campo Usuario -->
         <div class="form-group">
           <label for="login-username">Usuario</label>
