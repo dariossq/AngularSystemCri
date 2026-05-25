@@ -1,3 +1,145 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
-/* You can add global styles to this file, and also import other style files */
+/* Global Responsive Styles */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f5f5f5;
+  overflow-x: hidden;
+}
+
+/* Mobile-first responsive typography */
+@media (max-width: 479px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 18px; }
+  h4 { font-size: 16px; }
+  h5 { font-size: 14px; }
+  h6 { font-size: 12px; }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  html {
+    font-size: 15px;
+  }
+
+  body {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  h1 { font-size: 28px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 20px; }
+  h4 { font-size: 18px; }
+  h5 { font-size: 16px; }
+  h6 { font-size: 14px; }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  h1 { font-size: 32px; }
+  h2 { font-size: 28px; }
+  h3 { font-size: 24px; }
+  h4 { font-size: 20px; }
+  h5 { font-size: 18px; }
+  h6 { font-size: 16px; }
+}
+
+/* Ensure buttons and inputs are touch-friendly on mobile */
+@media (max-width: 767px) {
+  button, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 16px;
+  }
+
+  a {
+    padding: 10px 4px;
+  }
+}
+
+/* Image responsiveness */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Container responsiveness */
+.container-fluid {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+@media (min-width: 480px) {
+  .container-fluid {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-fluid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Scrollbar styling for better UX */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+
+  &:hover {
+    background: #555;
+  }
+}
+
+/* Utility classes for responsive spacing */
+.px-mobile { padding-left: 12px; padding-right: 12px; }
+.px-tablet { @media (min-width: 480px) { padding-left: 16px; padding-right: 16px; } }
+.px-desktop { @media (min-width: 768px) { padding-left: 20px; padding-right: 20px; } }
+
+.py-mobile { padding-top: 12px; padding-bottom: 12px; }
+.py-tablet { @media (min-width: 480px) { padding-top: 16px; padding-bottom: 16px; } }
+.py-desktop { @media (min-width: 768px) { padding-top: 20px; padding-bottom: 20px; } }
+
