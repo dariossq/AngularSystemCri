@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PersonaService } from '../services/persona.service';
+import { Persona, createEmptyPersona } from '../models/persona.model';
 
 @Component({
   selector: 'app-persona',
@@ -10,38 +12,17 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./persona.scss']
 })
 export class PersonaComponent {
+  private personaService = inject(PersonaService);
+
   public today = new Date();
   public mensajeExito = '';
   public mensajeError = '';
   private timerMensaje: any;
   private timerError: any;
   
-  public persona = {
-    nivelGerarquico: '',
-    estado: 'Activo',
-    codigoFlia: '',
-    primerNombre: '',
-    segundoNombre: '',
-    primerApellido: '',
-    segundoApellido: '',
-    documento: '',
-    identificacion: '',
-    genero: '',
-    vereda: '',
-    escolaridad: '',
-    profesion: '',
-    fechaNacimiento: '',
-    estadoCivil: '',
-    hijosACargo: '0',
-    departamento: '',
-    municipio: '',
-    fechaExpedicion: '',
-    celular: '',
-    telefono: ''
-  };
-
+  public persona: Persona = createEmptyPersona();
   public anteriorNivelGerarquico = ''; 
-  public registros: any[] = [];
+  public registros = this.personaService.personas;
   public buscar = '';
   public errores: { [key: string]: string } = {};
   public mostrarErrores = false;
@@ -200,7 +181,7 @@ export class PersonaComponent {
   public guardar() {
     this.mostrarErrores = true;
     if (this.validarCompleto()) {
-      this.registros.unshift({ ...this.persona });
+      this.personaService.addPersona({ ...this.persona });
       this.mostrarMensajeExito('Persona registrada correctamente.');
       this.limpiar();
       this.mostrarErrores = false;
@@ -213,9 +194,8 @@ export class PersonaComponent {
   public actualizar() {
     this.mostrarErrores = true;
     if (this.validarCompleto()) {
-      const index = this.registros.findIndex(r => r.identificacion === this.persona.identificacion);
-      if (index > -1) {
-        this.registros[index] = { ...this.persona };
+      const updated = this.personaService.updatePersona({ ...this.persona });
+      if (updated) {
         this.mostrarMensajeExito('Persona actualizada correctamente.');
         this.limpiar();
         this.mostrarErrores = false;
@@ -241,9 +221,8 @@ export class PersonaComponent {
     }
 
     if (confirm('¿Está seguro de que desea eliminar este registro?')) {
-      const index = this.registros.findIndex(r => r.identificacion === this.persona.identificacion);
-      if (index > -1) {
-        this.registros.splice(index, 1);
+      const removed = this.personaService.deletePersona(this.persona.identificacion);
+      if (removed) {
         this.mostrarMensajeExito('Persona eliminada correctamente.');
         this.limpiar();
       } else {
@@ -259,7 +238,7 @@ export class PersonaComponent {
       return;
     }
 
-    const registro = this.registros.find(r => r.identificacion === this.buscar);
+    const registro = this.personaService.searchByIdentificacion(this.buscar);
     if (registro) {
       this.cargarRegistro(registro);
       this.errores['buscar'] = '';
@@ -443,29 +422,7 @@ export class PersonaComponent {
 
   // Limpia el formulario y resetea el estado a su configuración inicial
   private limpiar() {
-    this.persona = {
-      nivelGerarquico: '',
-      estado: 'Activo',
-      codigoFlia: '',
-      primerNombre: '',
-      segundoNombre: '',
-      primerApellido: '',
-      segundoApellido: '',
-      documento: '',
-      identificacion: '',
-      genero: '',
-      vereda: '',
-      escolaridad: '',
-      profesion: '',
-      fechaNacimiento: '',
-      estadoCivil: '',
-      hijosACargo: '0',
-      departamento: '',
-      municipio: '',
-      fechaExpedicion: '',
-      celular: '',
-      telefono: ''
-    };
+    this.persona = createEmptyPersona();
     this.buscar = '';
     this.errores = {};
     this.anteriorNivelGerarquico = '';

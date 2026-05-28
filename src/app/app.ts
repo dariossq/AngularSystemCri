@@ -15,6 +15,7 @@ export class App {
   protected readonly menuOpen = signal(true);
   protected readonly cabildoOpen = signal(false);
   protected readonly guardiaOpen = signal(false);
+  protected readonly juntaComunalOpen = signal(false);
 
   // Inyectar servicio de autenticación y router
   private authService = inject(AuthService);
@@ -37,6 +38,7 @@ export class App {
       if (!nextValue) {
         this.cabildoOpen.set(false);
         this.guardiaOpen.set(false);
+        this.juntaComunalOpen.set(false);
       }
 
       return nextValue;
@@ -61,6 +63,20 @@ export class App {
 
       if (nextValue) {
         this.cabildoOpen.set(false);
+        this.juntaComunalOpen.set(false);
+      }
+
+      return nextValue;
+    });
+  }
+
+  public toggleJuntaComunal() {
+    this.juntaComunalOpen.update(value => {
+      const nextValue = !value;
+
+      if (nextValue) {
+        this.cabildoOpen.set(false);
+        this.guardiaOpen.set(false);
       }
 
       return nextValue;
@@ -75,11 +91,19 @@ export class App {
   public selectCabildo() {
     this.cabildoOpen.set(true);
     this.guardiaOpen.set(false);
+    this.juntaComunalOpen.set(false);
   }
 
   public selectGuardia() {
     this.guardiaOpen.set(true);
     this.cabildoOpen.set(false);
+    this.juntaComunalOpen.set(false);
+  }
+
+  public selectJuntaComunal() {
+    this.juntaComunalOpen.set(true);
+    this.cabildoOpen.set(false);
+    this.guardiaOpen.set(false);
   }
 
   @HostListener('document:click', ['$event'])
@@ -89,6 +113,7 @@ export class App {
     if (!target?.closest('.sidebar-submenu-item')) {
       this.cabildoOpen.set(false);
       this.guardiaOpen.set(false);
+      this.juntaComunalOpen.set(false);
     }
   }
 

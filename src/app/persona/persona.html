@@ -39,7 +39,7 @@
           <span class="text-muted">{{ today | date: 'dd/MM/yyyy' }}</span>
         </span>
         <span class="badge badge-counter" title="Registros capturados">
-          {{ registros.length }}
+          {{ registros().length }}
         </span>
       </div>
     </div>
@@ -369,9 +369,9 @@
     </div>
   </form>
 
-  <div class="registros-section" *ngIf="registros.length > 0">
+  <div class="registros-section" *ngIf="registros().length > 0">
     <div class="registros-header">
-      <h5><i class="fa fa-table" aria-hidden="true"></i> Registros Capturados ({{ registros.length }})</h5>
+      <h5><i class="fa fa-table" aria-hidden="true"></i> Registros Capturados ({{ registros().length }})</h5>
     </div>
 
     <div class="table-responsive">
@@ -388,7 +388,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let reg of registros; trackBy: trackByRegistro" class="record-row">
+          <tr *ngFor="let reg of registros(); trackBy: trackByRegistro" class="record-row">
             <td class="font-weight-bold">{{ reg.identificacion }}</td>
             <td>{{ reg.primerNombre }} {{ reg.segundoNombre }} {{ reg.primerApellido }} {{ reg.segundoApellido }}</td>
             <td>{{ reg.fechaNacimiento || '-' }}</td>
