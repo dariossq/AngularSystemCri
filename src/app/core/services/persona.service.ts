@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Persona, createEmptyPersona } from '../models/persona.model';
+import { Persona, createEmptyPersona } from '../../shared/models/persona.model';
 
 const STORAGE_KEY = 'systemcri_personas';
 

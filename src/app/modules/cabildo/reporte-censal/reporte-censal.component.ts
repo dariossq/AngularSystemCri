@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PersonaService } from '../../../services/persona.service';
+import { PersonaService } from '../../../core/services/persona.service';
 
 @Component({
   selector: 'app-reporte-censal',
