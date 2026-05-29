@@ -41,6 +41,7 @@ export class ShellComponent {
 
       if (nextValue) {
         this.guardiaOpen.set(false);
+        this.juntaComunalOpen.set(false);
       }
 
       return nextValue;

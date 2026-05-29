@@ -25,6 +25,10 @@ export const routes: Routes = [
         loadComponent: () => import('./modules/cabildo/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalComponent)
       },
       {
+        path: 'cabildo/veredas/registro-veredas',
+        loadComponent: () => import('./modules/cabildo/veredas/registro-veredas.component').then(m => m.RegistroVeredasComponent)
+      },
+      {
         path: 'cabildo/veredas/asignacion-cargo',
         loadComponent: () => import('./modules/cabildo/veredas/asignacion-cargo/asignacion-cargo.component').then(m => m.AsignacionCargoComponent)
       },
@@ -35,6 +39,18 @@ export const routes: Routes = [
       {
         path: 'cabildo/obligacion-colaboracion',
         loadComponent: () => import('./modules/cabildo/obligacion-colaboracion/obligacion-colaboracion.component').then(m => m.CabildoObligacionColaboracionComponent)
+      },
+      {
+        path: 'cabildo/certificados',
+        loadComponent: () => import('./modules/cabildo/certificados/certificados.component').then(m => m.CabildoCertificadosComponent)
+      },
+      {
+        path: 'cabildo/proyectos/ayudas-comuneros',
+        loadComponent: () => import('./modules/cabildo/proyectos/ayudas-comuneros.component').then(m => m.AyudasComunerosComponent)
+      },
+      {
+        path: 'cabildo/proyectos/registro',
+        loadComponent: () => import('./modules/cabildo/proyectos/registro.component').then(m => m.RegistroProyectoComponent)
       },
       {
         path: 'junta-comunal/obligacion-colaboracion',
