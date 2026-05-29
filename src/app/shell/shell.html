@@ -16,7 +16,7 @@
       <div class="main_menu_side hidden-print main_menu">
         <small class="text-secondary text-uppercase fw-bold d-block mb-2">Menu Principal</small>
         <ul class="navbar-nav flex-column gap-1 ps-0">
-          <li class="nav-item sidebar-submenu-item" (mouseenter)="selectCabildo()">
+          <li class="nav-item sidebar-submenu-item">
             <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="cabildoOpen()" (click)="toggleCabildo()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings" viewBox="0 0 16 16">
@@ -72,7 +72,7 @@
             </div>
           </li>
 
-          <li class="nav-item sidebar-submenu-item" (mouseenter)="selectGuardia()">
+          <li class="nav-item sidebar-submenu-item">
             <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="guardiaOpen()" (click)="toggleGuardia()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-lock-fill" viewBox="0 0 16 16">
@@ -96,7 +96,7 @@
             </div>
           </li>
 
-          <li class="nav-item sidebar-submenu-item" (mouseenter)="selectJuntaComunal()">
+          <li class="nav-item sidebar-submenu-item">
             <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="juntaComunalOpen()" (click)="toggleJuntaComunal()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">

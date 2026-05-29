@@ -78,24 +78,6 @@ export class ShellComponent {
     this.authService.logout();
   }
 
-  public selectCabildo() {
-    this.cabildoOpen.set(true);
-    this.guardiaOpen.set(false);
-    this.juntaComunalOpen.set(false);
-  }
-
-  public selectGuardia() {
-    this.guardiaOpen.set(true);
-    this.cabildoOpen.set(false);
-    this.juntaComunalOpen.set(false);
-  }
-
-  public selectJuntaComunal() {
-    this.juntaComunalOpen.set(true);
-    this.cabildoOpen.set(false);
-    this.guardiaOpen.set(false);
-  }
-
   @HostListener('document:click', ['$event'])
   public closeSubmenuOnOutsideClick(event: MouseEvent) {
     const target = event.target as HTMLElement | null;
