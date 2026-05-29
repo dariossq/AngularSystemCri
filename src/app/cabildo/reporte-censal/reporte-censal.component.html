@@ -1,0 +1,104 @@
+<section class="reporte-censal-page p-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="page-header d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+          <h1 class="h3 mb-2">{{ title }}</h1>
+          <p class="text-muted mb-0">{{ description }}</p>
+        </div>
+      </div>
+
+      <!-- Resumen ejecutivo -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-value">{{ totalPersonas }}</div>
+            <div class="stat-label">Total de personas</div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-value">{{ estadisticas.hombres }}</div>
+            <div class="stat-label">Hombres</div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-value">{{ estadisticas.mujeres }}</div>
+            <div class="stat-label">Mujeres</div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-value">{{ estadisticas.activos }}</div>
+            <div class="stat-label">Activos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de personas -->
+      <div class="table-section">
+        <h2 class="h5 mb-3">Listado de personas registradas</h2>
+        <div class="table-responsive">
+          <table class="table table-hover" *ngIf="personas().length > 0; else emptyState">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Identificación</th>
+                <th scope="col">Nombre completo</th>
+                <th scope="col">Género</th>
+                <th scope="col">Nivel Jerárquico</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Teléfono</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let persona of personas()">
+                <td>
+                  <span class="badge bg-light text-dark">{{ persona.identificacion }}</span>
+                </td>
+                <td>
+                  <strong>{{ persona.primerNombre }} {{ persona.primerApellido }}</strong>
+                  <br>
+                  <small class="text-muted">{{ persona.segundoNombre }} {{ persona.segundoApellido }}</small>
+                </td>
+                <td>
+                  <span class="badge" [ngClass]="persona.genero === 'Masculino' ? 'bg-primary' : 'bg-danger'">
+                    {{ persona.genero }}
+                  </span>
+                </td>
+                <td>{{ persona.nivelGerarquico || '-' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                    'bg-success': persona.estado === 'Activo',
+                    'bg-danger': persona.estado === 'Inactivo',
+                    'bg-warning': persona.estado === 'Suspendido'
+                  }">
+                    {{ persona.estado }}
+                  </span>
+                </td>
+                <td>{{ persona.celular || persona.telefono || '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <ng-template #emptyState>
+            <div class="alert alert-info" role="alert">
+              <strong>Sin datos:</strong> No hay personas registradas aún. Ingrese a <strong>Gestión de registros</strong> para capturar datos.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Información adicional -->
+      <div class="alert alert-info mt-4">
+        <h5>📊 Próximas mejoras</h5>
+        <ul class="mb-0">
+          <li>Gráficos y visualizaciones de distribución demográfica.</li>
+          <li>Filtros avanzados por vereda, escolaridad y estado civil.</li>
+          <li>Exportación de reportes en PDF y Excel.</li>
+          <li>Análisis por rango de edad y estado familiar.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

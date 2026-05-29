@@ -1,0 +1,26 @@
+.certificados-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.page-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 1.5rem;
+}
+
+.info-card {
+  border-radius: 0.75rem;
+  background: #f8f9ff;
+  border: 1px solid rgba(13, 110, 253, 0.08);
+
+  h2 {
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  ul li {
+    padding: 0.5rem 0;
+    color: #4a5568;
+  }
+}

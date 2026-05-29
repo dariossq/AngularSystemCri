@@ -21,27 +21,23 @@ export const routes: Routes = [
   },
   {
     path: 'cabildo/censo/reporte-censal',
-    loadComponent: () => import('./feature-placeholder/feature-placeholder.component').then(m => m.FeaturePlaceholderComponent),
-    canActivate: [authGuard],
-    data: { title: 'Reporte Censal' }
+    loadComponent: () => import('./cabildo/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalComponent),
+    canActivate: [authGuard]
   },
   {
     path: 'cabildo/veredas/asignacion-cargo',
-    loadComponent: () => import('./feature-placeholder/feature-placeholder.component').then(m => m.FeaturePlaceholderComponent),
-    canActivate: [authGuard],
-    data: { title: 'Asignación de Cargo' }
+    loadComponent: () => import('./cabildo/veredas/asignacion-cargo/asignacion-cargo.component').then(m => m.AsignacionCargoComponent),
+    canActivate: [authGuard]
   },
   {
     path: 'cabildo/veredas/reporte-por-anio',
-    loadComponent: () => import('./feature-placeholder/feature-placeholder.component').then(m => m.FeaturePlaceholderComponent),
-    canActivate: [authGuard],
-    data: { title: 'Reporte por Año' }
+    loadComponent: () => import('./cabildo/veredas/reporte-por-anio/reporte-por-anio.component').then(m => m.ReportePorAnioComponent),
+    canActivate: [authGuard]
   },
   {
     path: 'cabildo/obligacion-colaboracion',
-    loadComponent: () => import('./feature-placeholder/feature-placeholder.component').then(m => m.FeaturePlaceholderComponent),
-    canActivate: [authGuard],
-    data: { title: 'Obligación y Colaboración' }
+    loadComponent: () => import('./cabildo/obligacion-colaboracion/obligacion-colaboracion.component').then(m => m.CabildoObligacionColaboracionComponent),
+    canActivate: [authGuard]
   },
   {
     path: 'junta-comunal/obligacion-colaboracion',
@@ -50,21 +46,18 @@ export const routes: Routes = [
   },
   {
     path: 'junta-comunal/registro-autoridad',
-    loadComponent: () => import('./feature-placeholder/feature-placeholder.component').then(m => m.FeaturePlaceholderComponent),
-    canActivate: [authGuard],
-    data: { title: 'Registro de Autoridad' }
+    loadComponent: () => import('./junta-comunal/registro-autoridad/registro-autoridad.component').then(m => m.RegistroAutoridadComponent),
+    canActivate: [authGuard]
   },
   {
     path: 'junta-comunal/certificados',
-    loadComponent: () => import('./feature-placeholder/feature-placeholder.component').then(m => m.FeaturePlaceholderComponent),
-    canActivate: [authGuard],
-    data: { title: 'Certificados' }
+    loadComponent: () => import('./junta-comunal/certificados/certificados.component').then(m => m.CertificadosComponent),
+    canActivate: [authGuard]
   },
   {
     path: 'junta-comunal/reporte-censal',
-    loadComponent: () => import('./feature-placeholder/feature-placeholder.component').then(m => m.FeaturePlaceholderComponent),
-    canActivate: [authGuard],
-    data: { title: 'Reporte Censal' }
+    loadComponent: () => import('./junta-comunal/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalJuntaComponent),
+    canActivate: [authGuard]
   },
   {
     path: '**',
