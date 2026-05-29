@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PersonaService } from '../services/persona.service';
-import { Persona, createEmptyPersona } from '../models/persona.model';
+import { PersonaService } from '../../../services/persona.service';
+import { Persona, createEmptyPersona } from '../../../models/persona.model';
 
 @Component({
   selector: 'app-persona',

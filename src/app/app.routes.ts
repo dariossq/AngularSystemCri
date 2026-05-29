@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home';
-import { PersonaComponent } from './persona/persona';
+import { PersonaComponent } from './modules/cabildo/persona/persona';
 import { Login } from './login/login';
 import { authGuard } from './guards/auth.guard';
 
@@ -21,42 +21,42 @@ export const routes: Routes = [
   },
   {
     path: 'cabildo/censo/reporte-censal',
-    loadComponent: () => import('./cabildo/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalComponent),
+    loadComponent: () => import('./modules/cabildo/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalComponent),
     canActivate: [authGuard]
   },
   {
     path: 'cabildo/veredas/asignacion-cargo',
-    loadComponent: () => import('./cabildo/veredas/asignacion-cargo/asignacion-cargo.component').then(m => m.AsignacionCargoComponent),
+    loadComponent: () => import('./modules/cabildo/veredas/asignacion-cargo/asignacion-cargo.component').then(m => m.AsignacionCargoComponent),
     canActivate: [authGuard]
   },
   {
     path: 'cabildo/veredas/reporte-por-anio',
-    loadComponent: () => import('./cabildo/veredas/reporte-por-anio/reporte-por-anio.component').then(m => m.ReportePorAnioComponent),
+    loadComponent: () => import('./modules/cabildo/veredas/reporte-por-anio/reporte-por-anio.component').then(m => m.ReportePorAnioComponent),
     canActivate: [authGuard]
   },
   {
     path: 'cabildo/obligacion-colaboracion',
-    loadComponent: () => import('./cabildo/obligacion-colaboracion/obligacion-colaboracion.component').then(m => m.CabildoObligacionColaboracionComponent),
+    loadComponent: () => import('./modules/cabildo/obligacion-colaboracion/obligacion-colaboracion.component').then(m => m.CabildoObligacionColaboracionComponent),
     canActivate: [authGuard]
   },
   {
     path: 'junta-comunal/obligacion-colaboracion',
-    loadComponent: () => import('./junta-comunal/obligacion-colaboracion/obligacion-colaboracion.component').then(m => m.JuntaComunalObligacionColaboracionComponent),
+    loadComponent: () => import('./modules/junta-comunal/obligacion-colaboracion/obligacion-colaboracion.component').then(m => m.JuntaComunalObligacionColaboracionComponent),
     canActivate: [authGuard]
   },
   {
     path: 'junta-comunal/registro-autoridad',
-    loadComponent: () => import('./junta-comunal/registro-autoridad/registro-autoridad.component').then(m => m.RegistroAutoridadComponent),
+    loadComponent: () => import('./modules/junta-comunal/registro-autoridad/registro-autoridad.component').then(m => m.RegistroAutoridadComponent),
     canActivate: [authGuard]
   },
   {
     path: 'junta-comunal/certificados',
-    loadComponent: () => import('./junta-comunal/certificados/certificados.component').then(m => m.CertificadosComponent),
+    loadComponent: () => import('./modules/junta-comunal/certificados/certificados.component').then(m => m.CertificadosComponent),
     canActivate: [authGuard]
   },
   {
     path: 'junta-comunal/reporte-censal',
-    loadComponent: () => import('./junta-comunal/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalJuntaComponent),
+    loadComponent: () => import('./modules/junta-comunal/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalJuntaComponent),
     canActivate: [authGuard]
   },
   {
