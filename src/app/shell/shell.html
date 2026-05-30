@@ -29,7 +29,7 @@
                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 1 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
               </svg>
             </button>
-            <div *ngIf="cabildoOpen() || !menuOpen()" class="sidebar-submenu ps-4 mt-2">
+            <div *ngIf="cabildoOpen() || (!menuOpen() && !isMobile())" class="sidebar-submenu ps-4 mt-2">
               <div class="text-secondary small text-uppercase mb-1">Censo</div>
               <ul class="list-unstyled mb-2">
                 <li>
@@ -117,7 +117,7 @@
                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 1 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
               </svg>
             </button>
-            <div *ngIf="guardiaOpen() || !menuOpen()" class="sidebar-submenu ps-4 mt-2">
+            <div *ngIf="guardiaOpen() || (!menuOpen() && !isMobile())" class="sidebar-submenu ps-4 mt-2">
               <ul class="list-unstyled mb-2">
                 <li>
                   <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/censo/gestion-registros">
@@ -141,7 +141,7 @@
                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 1 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
               </svg>
             </button>
-            <div *ngIf="juntaComunalOpen() || !menuOpen()" class="sidebar-submenu ps-4 mt-2">
+            <div *ngIf="juntaComunalOpen() || (!menuOpen() && !isMobile())" class="sidebar-submenu ps-4 mt-2">
               <ul class="list-unstyled mb-2">
                 <li>
                   <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/junta-comunal/obligacion-colaboracion">
@@ -174,6 +174,8 @@
       </div>
     </div>
   </nav>
+
+  <div *ngIf="menuOpen() && isMobile()" class="sidebar-backdrop" (click)="closeMenuAndSubmenus()"></div>
 
   <div class="app-content flex-grow-1 d-flex flex-column">
     <header class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom bg-white shadow-sm">

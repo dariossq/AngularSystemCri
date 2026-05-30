@@ -31,7 +31,7 @@ export class ShellComponent {
       });
   }
 
-  private isMobile(): boolean {
+  protected isMobile(): boolean {
     return typeof window !== 'undefined' && window.innerWidth < 768;
   }
 
@@ -99,7 +99,7 @@ export class ShellComponent {
   public handleMenuLinkClick(event: Event): void {
     const target = event.target as HTMLElement | null;
 
-    if (this.isMobile() && !!target?.closest('a[routerLink]')) {
+    if (this.isMobile() && !!target?.closest('.app-sidebar a')) {
       this.closeMenuAndSubmenus();
     }
   }
@@ -124,7 +124,7 @@ export class ShellComponent {
     const isMobileView = this.isMobile();
 
     // Close menu on route selection in mobile view
-    if (isMobileView && !!target?.closest('a[routerLink]')) {
+    if (isMobileView && !!target?.closest('.app-sidebar a')) {
       this.closeMenuAndSubmenus();
       return;
     }

@@ -168,18 +168,20 @@
         </div>
 
         <div class="col-12 col-md-4">
-          <label class="form-label" for="genero">Género <span class="required">*</span></label>
-          <div class="gender-toggle switch" [class.disabled]="!persona.nivelGerarquico" role="group" aria-label="Seleccione género">
-            <span class="switch-thumb" [class.right]="persona.genero === 'Femenino'"></span>
-            <button type="button" class="switch-option" [class.active]="persona.genero === 'Masculino'"
-                    (click)="setGenero('Masculino')" [disabled]="!persona.nivelGerarquico" aria-pressed="persona.genero === 'Masculino'">
-              M
-            </button>
-            <button type="button" class="switch-option" [class.active]="persona.genero === 'Femenino'"
-                    (click)="setGenero('Femenino')" [disabled]="!persona.nivelGerarquico" aria-pressed="persona.genero === 'Femenino'">
-              F
-            </button>
-          </div>
+          <fieldset class="form-fieldset">
+            <legend class="form-label">Género <span class="required">*</span></legend>
+            <div class="gender-toggle switch" [class.disabled]="!persona.nivelGerarquico" role="group" aria-label="Seleccione género">
+              <span class="switch-thumb" [class.right]="persona.genero === 'Femenino'"></span>
+              <button type="button" class="switch-option" [class.active]="persona.genero === 'Masculino'"
+                      (click)="setGenero('Masculino')" [disabled]="!persona.nivelGerarquico" aria-pressed="persona.genero === 'Masculino'">
+                M
+              </button>
+              <button type="button" class="switch-option" [class.active]="persona.genero === 'Femenino'"
+                      (click)="setGenero('Femenino')" [disabled]="!persona.nivelGerarquico" aria-pressed="persona.genero === 'Femenino'">
+                F
+              </button>
+            </div>
+          </fieldset>
           <input type="hidden" id="genero" [(ngModel)]="persona.genero" name="genero" />
           <div id="generoError" class="invalid-feedback" *ngIf="errores['genero']">
             {{ errores['genero'] }}
