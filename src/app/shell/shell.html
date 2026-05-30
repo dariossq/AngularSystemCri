@@ -145,9 +145,9 @@
           <li class="nav-item sidebar-submenu-item">
             <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="juntaComunalOpen()" (click)="toggleJuntaComunal()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                  <path d="M13 7c0 1.105-.672 2-1.5 2S10 8.105 10 7s.672-2 1.5-2S13 5.895 13 7Zm-5 0c0 1.105-.672 2-1.5 2S5 8.105 5 7s.672-2 1.5-2S8 5.895 8 7Zm3.1 6c-.616 0-1.206-.195-1.69-.533C8.76 11.95 8.084 11 7 11s-1.76.95-2.41 1.467A3.18 3.18 0 0 1 3 13c-1.657 0-3 1.343-3 3h13c0-1.657-1.343-3-3-3Z"/>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-triangle-half" viewBox="0 0 16 16">
+  <path d="M8.065 2.016A.13.13 0 0 0 8.002 2v11.983l6.856.017a.12.12 0 0 0 .066-.017.2.2 0 0 0 .054-.06.18.18 0 0 0-.002-.183L8.12 2.073a.15.15 0 0 0-.054-.057zm-1.043-.45a1.13 1.13 0 0 1 1.96 0l6.856 11.667c.458.778-.091 1.767-.98 1.767H1.146c-.889 0-1.437-.99-.98-1.767z"/>
+</svg>
                 <span>Junta comunal</span>
               </span>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" [class.rotate-90]="juntaComunalOpen()">
@@ -186,10 +186,11 @@
           <li class="nav-item sidebar-submenu-item">
             <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="juntaEclesiasticaOpen()" (click)="toggleJuntaEclesiastica()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
-                  <path d="M8 0a1 1 0 0 0-.832.445L1.453 6.684A.5.5 0 0 0 1.5 7h13a.5.5 0 0 0 .047-.316L8.832.445A1 1 0 0 0 8 0ZM0 7.5V8a1 1 0 0 0 1 1h1v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V9h6v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V9h1a1 1 0 0 0 1-1v-.5L8 1 0 7.5Z"/>
-                  <path d="M2 9v4h1V9H2Zm2 0v4h1V9H4Zm2 0v4h1V9H6Zm2 0v4h1V9H8Zm2 0v4h1V9h-1Zm2 0v4h1V9h-1Z"/>
-                </svg>
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-add-fill" viewBox="0 0 16 16">
+  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 1 1-1 0v-1h-1a.5.5 0 1 1 0-1h1v-1a.5.5 0 0 1 1 0"/>
+  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+  <path d="m8 3.293 4.712 4.712A4.5 4.5 0 0 0 8.758 15H3.5A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+</svg>
                 <span>Junta eclesiastica</span>
               </span>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" [class.rotate-90]="juntaEclesiasticaOpen()">
@@ -224,9 +225,9 @@
           <li class="nav-item sidebar-submenu-item">
             <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="usuarioOpen()" (click)="toggleUsuario()" style="transition: all 0.3s ease;">
               <span class="d-flex align-items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                  <path d="M13 7c0 1.105-.672 2-1.5 2S10 8.105 10 7s.672-2 1.5-2S13 5.895 13 7Zm-5 0c0 1.105-.672 2-1.5 2S5 8.105 5 7s.672-2 1.5-2S8 5.895 8 7Zm3.1 6c-.616 0-1.206-.195-1.69-.533C8.76 11.95 8.084 11 7 11s-1.76.95-2.41 1.467A3.18 3.18 0 0 1 3 13c-1.657 0-3 1.343-3 3h13c0-1.657-1.343-3-3-3Z"/>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-gear" viewBox="0 0 16 16">
+  <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4m9.886-3.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
+</svg>
                 <span>Usuario</span>
               </span>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" [class.rotate-90]="usuarioOpen()">
@@ -253,19 +254,19 @@
 
           <li class="nav-item">
             <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded" routerLink="/validar-certificacion">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
-                <path d="M2.5 8a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0zm5.354-1.646a.5.5 0 0 0-.708 0L6.5 6.5 5.854 5.854a.5.5 0 1 0-.708.708L6.5 7.915l1.354 1.353a.5.5 0 0 0 .708-.707L7.207 7.06z"/>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+  <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z"/>
+  <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0"/>
+</svg>
               <span>Validar Certificación</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-white d-flex align-items-center gap-2 px-2 py-2 rounded" routerLink="/actas-documentos">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
-                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5.5 9a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5.5 11a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3z"/>
-                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3-.5H9V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4h-2z"/>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+  <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0z"/>
+</svg>
               <span>Actas y Documentos</span>
             </a>
           </li>
