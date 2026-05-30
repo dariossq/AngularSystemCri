@@ -74,7 +74,7 @@
                 <li>
                   <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/obligacion-colaboracion">
                     <span class="submenu-bullet"></span>
-                    <span>Ver detalle</span>
+                    <span>Gestionar</span>
                   </a>
                 </li>
               </ul>
@@ -125,6 +125,18 @@
                     <span>Guardia, Colaboracion y Denuncias</span>
                   </a>
                 </li>
+                <li>
+                  <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/junta-comunal/registro-autoridad">
+                    <span class="submenu-bullet"></span>
+                    <span>Registro de autoridades</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/cabildo/censo/reporte-censal">
+                    <span class="submenu-bullet"></span>
+                    <span>Reportes</span>
+                  </a>
+                </li>
               </ul>
             </div>
           </li>
@@ -165,6 +177,42 @@
                   <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/junta-comunal/reporte-censal">
                     <span class="submenu-bullet"></span>
                     <span>Reporte censal</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item sidebar-submenu-item">
+            <button type="button" class="btn nav-link text-white d-flex align-items-center justify-content-between px-2 rounded w-100 text-start" [class.bg-secondary]="juntaEclesiasticaOpen()" (click)="toggleJuntaEclesiastica()" style="transition: all 0.3s ease;">
+              <span class="d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+                  <path d="M8 0a1 1 0 0 0-.832.445L1.453 6.684A.5.5 0 0 0 1.5 7h13a.5.5 0 0 0 .047-.316L8.832.445A1 1 0 0 0 8 0ZM0 7.5V8a1 1 0 0 0 1 1h1v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V9h6v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V9h1a1 1 0 0 0 1-1v-.5L8 1 0 7.5Z"/>
+                  <path d="M2 9v4h1V9H2Zm2 0v4h1V9H4Zm2 0v4h1V9H6Zm2 0v4h1V9H8Zm2 0v4h1V9h-1Zm2 0v4h1V9h-1Z"/>
+                </svg>
+                <span>Junta eclesiastica</span>
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" [class.rotate-90]="juntaEclesiasticaOpen()">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 1 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </button>
+            <div *ngIf="juntaEclesiasticaOpen() || (!menuOpen() && !isMobile())" class="sidebar-submenu ps-4 mt-2">
+              <ul class="list-unstyled mb-2">
+                <li>
+                  <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/junta-eclesiastica/colaboracion">
+                    <span class="submenu-bullet"></span>
+                    <span>Colaboracion</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/junta-eclesiastica/registro-integrante">
+                    <span class="submenu-bullet"></span>
+                    <span>Registro de integrante</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link text-white-50 small d-flex align-items-center gap-2 px-2 py-1 rounded" routerLink="/junta-eclesiastica/certificados">
+                    <span class="submenu-bullet"></span>
+                    <span>Certificados</span>
                   </a>
                 </li>
               </ul>

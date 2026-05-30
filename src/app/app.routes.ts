@@ -67,6 +67,18 @@ export const routes: Routes = [
       {
         path: 'junta-comunal/reporte-censal',
         loadComponent: () => import('./modules/junta-comunal/reporte-censal/reporte-censal.component').then(m => m.ReporteCensalJuntaComponent)
+      },
+      {
+        path: 'junta-eclesiastica/colaboracion',
+        loadComponent: () => import('./modules/junta-eclesiastica/colaboracion/colaboracion.component').then(m => m.JuntaEclesiasticaColaboracionComponent)
+      },
+      {
+        path: 'junta-eclesiastica/registro-integrante',
+        loadComponent: () => import('./modules/junta-eclesiastica/registro-integrante/registro-integrante.component').then(m => m.JuntaEclesiasticaRegistroIntegranteComponent)
+      },
+      {
+        path: 'junta-eclesiastica/certificados',
+        loadComponent: () => import('./modules/junta-eclesiastica/certificados/certificados.component').then(m => m.JuntaEclesiasticaCertificadosComponent)
       }
     ]
   },

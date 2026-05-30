@@ -17,6 +17,7 @@ export class ShellComponent {
   protected readonly cabildoOpen = signal(false);
   protected readonly guardiaOpen = signal(false);
   protected readonly juntaComunalOpen = signal(false);
+  protected readonly juntaEclesiasticaOpen = signal(false);
 
   private authService = inject(AuthService);
 
@@ -46,6 +47,7 @@ export class ShellComponent {
         this.cabildoOpen.set(false);
         this.guardiaOpen.set(false);
         this.juntaComunalOpen.set(false);
+        this.juntaEclesiasticaOpen.set(false);
       }
 
       return nextValue;
@@ -72,6 +74,7 @@ export class ShellComponent {
       if (nextValue) {
         this.cabildoOpen.set(false);
         this.juntaComunalOpen.set(false);
+        this.juntaEclesiasticaOpen.set(false);
       }
 
       return nextValue;
@@ -85,6 +88,21 @@ export class ShellComponent {
       if (nextValue) {
         this.cabildoOpen.set(false);
         this.guardiaOpen.set(false);
+        this.juntaEclesiasticaOpen.set(false);
+      }
+
+      return nextValue;
+    });
+  }
+
+  public toggleJuntaEclesiastica() {
+    this.juntaEclesiasticaOpen.update(value => {
+      const nextValue = !value;
+
+      if (nextValue) {
+        this.cabildoOpen.set(false);
+        this.guardiaOpen.set(false);
+        this.juntaComunalOpen.set(false);
       }
 
       return nextValue;
@@ -109,6 +127,7 @@ export class ShellComponent {
     this.cabildoOpen.set(false);
     this.guardiaOpen.set(false);
     this.juntaComunalOpen.set(false);
+    this.juntaEclesiasticaOpen.set(false);
   }
 
   @HostListener('window:resize')
@@ -134,6 +153,7 @@ export class ShellComponent {
       this.cabildoOpen.set(false);
       this.guardiaOpen.set(false);
       this.juntaComunalOpen.set(false);
+      this.juntaEclesiasticaOpen.set(false);
     }
 
     // Close menu on outside click in mobile view
