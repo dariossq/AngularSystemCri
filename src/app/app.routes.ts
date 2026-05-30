@@ -80,6 +80,23 @@ export const routes: Routes = [
         path: 'junta-eclesiastica/certificados',
         loadComponent: () => import('./modules/junta-eclesiastica/certificados/certificados.component').then(m => m.JuntaEclesiasticaCertificadosComponent)
       }
+      ,
+      {
+        path: 'usuario/registro',
+        loadComponent: () => import('./modules/usuario/registro-usuario.component').then(m => m.RegistroUsuarioComponent)
+      },
+      {
+        path: 'usuario/cambiar-contrasena',
+        loadComponent: () => import('./modules/usuario/cambiar-contrasena.component').then(m => m.CambiarContrasenaComponent)
+      },
+      {
+        path: 'validar-certificacion',
+        loadComponent: () => import('./modules/validar/validar-certificacion.component').then(m => m.ValidarCertificacionComponent)
+      },
+      {
+        path: 'actas-documentos',
+        loadComponent: () => import('./modules/documentos/actas-documentos.component').then(m => m.ActasDocumentosComponent)
+      }
     ]
   },
   {

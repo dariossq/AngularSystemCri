@@ -18,6 +18,7 @@ export class ShellComponent {
   protected readonly guardiaOpen = signal(false);
   protected readonly juntaComunalOpen = signal(false);
   protected readonly juntaEclesiasticaOpen = signal(false);
+  protected readonly usuarioOpen = signal(false);
 
   private authService = inject(AuthService);
 
@@ -44,6 +45,22 @@ export class ShellComponent {
       const nextValue = !value;
 
       if (!nextValue) {
+        this.cabildoOpen.set(false);
+        this.guardiaOpen.set(false);
+        this.juntaComunalOpen.set(false);
+        this.juntaEclesiasticaOpen.set(false);
+        this.usuarioOpen.set(false);
+      }
+
+      return nextValue;
+    });
+  }
+
+  public toggleUsuario() {
+    this.usuarioOpen.update(value => {
+      const nextValue = !value;
+
+      if (nextValue) {
         this.cabildoOpen.set(false);
         this.guardiaOpen.set(false);
         this.juntaComunalOpen.set(false);
