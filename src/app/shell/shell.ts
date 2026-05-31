@@ -78,6 +78,7 @@ export class ShellComponent {
       if (nextValue) {
         this.guardiaOpen.set(false);
         this.juntaComunalOpen.set(false);
+        this.usuarioOpen.set(false);
       }
 
       return nextValue;
@@ -92,6 +93,7 @@ export class ShellComponent {
         this.cabildoOpen.set(false);
         this.juntaComunalOpen.set(false);
         this.juntaEclesiasticaOpen.set(false);
+        this.usuarioOpen.set(false);
       }
 
       return nextValue;
@@ -106,6 +108,7 @@ export class ShellComponent {
         this.cabildoOpen.set(false);
         this.guardiaOpen.set(false);
         this.juntaEclesiasticaOpen.set(false);
+        this.usuarioOpen.set(false);
       }
 
       return nextValue;
@@ -120,6 +123,7 @@ export class ShellComponent {
         this.cabildoOpen.set(false);
         this.guardiaOpen.set(false);
         this.juntaComunalOpen.set(false);
+        this.usuarioOpen.set(false);
       }
 
       return nextValue;
@@ -145,6 +149,7 @@ export class ShellComponent {
     this.guardiaOpen.set(false);
     this.juntaComunalOpen.set(false);
     this.juntaEclesiasticaOpen.set(false);
+    this.usuarioOpen.set(false);
   }
 
   @HostListener('window:resize')
@@ -171,6 +176,7 @@ export class ShellComponent {
       this.guardiaOpen.set(false);
       this.juntaComunalOpen.set(false);
       this.juntaEclesiasticaOpen.set(false);
+      this.usuarioOpen.set(false);
     }
 
     // Close menu on outside click in mobile view
