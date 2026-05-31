@@ -104,7 +104,13 @@ export class PersonaComponent {
 
     if (step === 4) {
       if (!this.persona.fechaNacimiento) pasoErrores['fechaNacimiento'] = 'Fecha de nacimiento es requerida';
-      if (this.persona.nivelGerarquico === 'Hijo') {
+      if (!this.persona.departamento) pasoErrores['departamento'] = 'Departamento es requerido';
+      if (!this.persona.municipio) pasoErrores['municipio'] = 'Municipio es requerido';
+      if (!this.persona.fechaExpedicion) pasoErrores['fechaExpedicion'] = 'Fecha de expedición es requerida';
+      if (this.persona.nivelGerarquico !== 'Hijo') {
+        if (!this.persona.estadoCivil) pasoErrores['estadoCivil'] = 'Estado civil es requerido';
+        if (!this.persona.hijosACargo) pasoErrores['hijosACargo'] = 'Hijos a cargo es requerido';
+      } else {
         this.persona.estadoCivil = 'Soltero';
         this.persona.hijosACargo = '0';
       }
@@ -167,6 +173,12 @@ export class PersonaComponent {
     }
 
     this.anteriorNivelGerarquico = nuevoNivel;
+  }
+
+  public onIdentificacionChange(valor: string) {
+    const soloDigitos = (valor || '').replace(/\D/g, '').slice(0, 11);
+    this.persona.identificacion = soloDigitos;
+    this.limpiarError('identificacion', soloDigitos);
   }
 
   public setGenero(valor: string) {
@@ -309,13 +321,17 @@ export class PersonaComponent {
 
     // validaciones específicas
     if (campo === 'identificacion') {
-      // validación de solo números y longitud mínima
+      // validación de solo números y rango de longitud
       if (!/^\d+$/.test(valor)) {
         this.errores[campo] = 'Identificación debe contener solo números';
         return;
       }
       if (valor.length < 5) {
         this.errores[campo] = 'Identificación debe tener al menos 5 dígitos';
+        return;
+      }
+      if (valor.length > 11) {
+        this.errores[campo] = 'Identificación no puede exceder 11 dígitos';
         return;
       }
     }
@@ -353,7 +369,7 @@ export class PersonaComponent {
       return;
     }
 
-    if (valor || (typeof valor === 'number' && !isNaN(valor))) {
+    if (valor !== '' && valor !== null && valor !== undefined) {
       delete this.errores[campo];
     }
   }
@@ -365,10 +381,15 @@ export class PersonaComponent {
       case 'primerApellido': return 'Primer apellido es requerido';
       case 'identificacion': return 'Identificación es requerida';
       case 'documento': return 'Documento es requerido';
-      case 'genero': return 'Género es requerido';
+        case 'genero': return 'Género es requerido';
       case 'vereda': return 'Vereda es requerida';
       case 'escolaridad': return 'Escolaridad es requerida';
       case 'fechaNacimiento': return 'Fecha de nacimiento es requerida';
+      case 'estadoCivil': return 'Estado civil es requerido';
+      case 'hijosACargo': return 'Hijos a cargo es requerido';
+      case 'departamento': return 'Departamento es requerido';
+      case 'municipio': return 'Municipio es requerido';
+      case 'fechaExpedicion': return 'Fecha de expedición es requerida';
       default: return 'Campo requerido';
     }
   }
@@ -401,6 +422,23 @@ export class PersonaComponent {
     if (!this.persona.fechaNacimiento) {
       this.errores['fechaNacimiento'] = 'Fecha de nacimiento es requerida';
     }
+    if (!this.persona.departamento) {
+      this.errores['departamento'] = 'Departamento es requerido';
+    }
+    if (!this.persona.municipio) {
+      this.errores['municipio'] = 'Municipio es requerido';
+    }
+    if (!this.persona.fechaExpedicion) {
+      this.errores['fechaExpedicion'] = 'Fecha de expedición es requerida';
+    }
+    if (this.persona.nivelGerarquico !== 'Hijo') {
+      if (!this.persona.estadoCivil) {
+        this.errores['estadoCivil'] = 'Estado civil es requerido';
+      }
+      if (!this.persona.hijosACargo) {
+        this.errores['hijosACargo'] = 'Hijos a cargo es requerido';
+      }
+    }
 
     if (this.persona.identificacion && !/^\d+$/.test(this.persona.identificacion)) {
       this.errores['identificacion'] = 'Identificación debe contener solo números';
@@ -408,6 +446,10 @@ export class PersonaComponent {
 
     if (this.persona.identificacion && this.persona.identificacion.length < 5) {
       this.errores['identificacion'] = 'Identificación debe tener al menos 5 dígitos';
+    }
+
+    if (this.persona.identificacion && this.persona.identificacion.length > 11) {
+      this.errores['identificacion'] = 'Identificación no puede exceder 11 dígitos';
     }
 
     if (this.persona.celular && !/^\d+$/.test(this.persona.celular)) {

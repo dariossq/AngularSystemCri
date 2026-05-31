@@ -159,9 +159,9 @@
           <input id="identificacion" type="text" class="form-control"
                [class.is-invalid]="(mostrarErrores && errores['identificacion']) || errores['identificacion']"
                [attr.aria-invalid]="(mostrarErrores && errores['identificacion']) || errores['identificacion'] ? true : null"
-               aria-describedby="identificacionError" [(ngModel)]="persona.identificacion" (ngModelChange)="limpiarError('identificacion',$event)" (blur)="validarCampo('identificacion')"
+               aria-describedby="identificacionError" [(ngModel)]="persona.identificacion" (ngModelChange)="onIdentificacionChange($event)" (blur)="validarCampo('identificacion')"
                name="identificacion" placeholder="Ej: 10617052" inputmode="numeric"
-               pattern="[0-9]*" autocomplete="off" [disabled]="!persona.nivelGerarquico" required />
+               pattern="[0-9]*" maxlength="11" autocomplete="off" [disabled]="!persona.nivelGerarquico" required />
           <div id="identificacionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['identificacion']">
             {{ errores['identificacion'] }}
           </div>
@@ -250,18 +250,37 @@
         </div>
 
         <div class="col-12 col-md-3">
-          <label class="form-label" for="estadoCivil">Estado civil</label>
-          <select id="estadoCivil" class="form-select" [(ngModel)]="persona.estadoCivil" name="estadoCivil" [disabled]="!persona.nivelGerarquico || persona.nivelGerarquico === 'Hijo'">
+          <label class="form-label" for="estadoCivil">Estado civil <span class="required">*</span></label>
+          <select id="estadoCivil" class="form-select" [(ngModel)]="persona.estadoCivil" name="estadoCivil"
+              [disabled]="!persona.nivelGerarquico || persona.nivelGerarquico === 'Hijo'"
+              [class.is-invalid]="mostrarErrores && errores['estadoCivil']"
+              [attr.aria-invalid]="mostrarErrores && errores['estadoCivil'] ? true : null"
+              aria-describedby="estadoCivilError"
+              (ngModelChange)="limpiarError('estadoCivil',$event)"
+              (blur)="validarCampo('estadoCivil')">
             <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.estadoCivil; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
+          <div id="estadoCivilError" class="invalid-feedback" *ngIf="mostrarErrores && errores['estadoCivil']">
+            {{ errores['estadoCivil'] }}
+          </div>
         </div>
 
         <div class="col-12 col-md-3">
-          <label class="form-label" for="hijosACargo">Hijos a cargo</label>
-          <select id="hijosACargo" class="form-select" [(ngModel)]="persona.hijosACargo" name="hijosACargo" [disabled]="!persona.nivelGerarquico || persona.nivelGerarquico === 'Hijo'">
+          <label class="form-label" for="hijosACargo">Hijos a cargo <span class="required">*</span></label>
+          <select id="hijosACargo" class="form-select" [(ngModel)]="persona.hijosACargo" name="hijosACargo"
+              [disabled]="!persona.nivelGerarquico || persona.nivelGerarquico === 'Hijo'"
+              [class.is-invalid]="mostrarErrores && errores['hijosACargo']"
+              [attr.aria-invalid]="mostrarErrores && errores['hijosACargo'] ? true : null"
+              aria-describedby="hijosACargoError"
+              (ngModelChange)="limpiarError('hijosACargo',$event)"
+              (blur)="validarCampo('hijosACargo')">
+            <option value="">Seleccionar...</option>
             <option *ngFor="let opt of opciones.hijosACargo; trackBy: trackByOpcion" [value]="opt">{{ opt }}</option>
           </select>
+          <div id="hijosACargoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['hijosACargo']">
+            {{ errores['hijosACargo'] }}
+          </div>
         </div>
       </div>
     </div>
@@ -270,29 +289,53 @@
       <h5 class="section-title"><i class="fa fa-calendar-alt" aria-hidden="true"></i> Lugar y Fecha de Expedición</h5>
       <div class="row g-3">
         <div class="col-12 col-md-4">
-          <label class="form-label" for="departamento">Departamento</label>
-          <select id="departamento" class="form-select" [(ngModel)]="persona.departamento" name="departamento" [disabled]="!persona.nivelGerarquico">
+          <label class="form-label" for="departamento">Departamento <span class="required">*</span></label>
+          <select id="departamento" class="form-select" [(ngModel)]="persona.departamento" name="departamento" [disabled]="!persona.nivelGerarquico"
+              [class.is-invalid]="mostrarErrores && errores['departamento']"
+              [attr.aria-invalid]="mostrarErrores && errores['departamento'] ? true : null"
+              aria-describedby="departamentoError"
+              (ngModelChange)="limpiarError('departamento',$event)"
+              (blur)="validarCampo('departamento')">
             <option value="">Seleccionar...</option>
             <option value="Cauca">Cauca</option>
             <option value="Nariño">Nariño</option>
             <option value="Huila">Huila</option>
           </select>
+          <div id="departamentoError" class="invalid-feedback" *ngIf="mostrarErrores && errores['departamento']">
+            {{ errores['departamento'] }}
+          </div>
         </div>
 
         <div class="col-12 col-md-4">
-          <label class="form-label" for="municipio">Municipio</label>
-          <select id="municipio" class="form-select" [(ngModel)]="persona.municipio" name="municipio" [disabled]="!persona.nivelGerarquico">
+          <label class="form-label" for="municipio">Municipio <span class="required">*</span></label>
+          <select id="municipio" class="form-select" [(ngModel)]="persona.municipio" name="municipio" [disabled]="!persona.nivelGerarquico"
+              [class.is-invalid]="mostrarErrores && errores['municipio']"
+              [attr.aria-invalid]="mostrarErrores && errores['municipio'] ? true : null"
+              aria-describedby="municipioError"
+              (ngModelChange)="limpiarError('municipio',$event)"
+              (blur)="validarCampo('municipio')">
             <option value="">Seleccionar...</option>
             <option value="Popayán">Popayán</option>
             <option value="Silvia">Silvia</option>
             <option value="Puracé">Puracé</option>
           </select>
+          <div id="municipioError" class="invalid-feedback" *ngIf="mostrarErrores && errores['municipio']">
+            {{ errores['municipio'] }}
+          </div>
         </div>
 
         <div class="col-12 col-md-4">
-          <label class="form-label" for="fechaExpedicion">Fecha de expedición</label>
+          <label class="form-label" for="fechaExpedicion">Fecha de expedición <span class="required">*</span></label>
           <input id="fechaExpedicion" type="date" class="form-control" [(ngModel)]="persona.fechaExpedicion"
-                 name="fechaExpedicion" [disabled]="!persona.nivelGerarquico" />
+                 name="fechaExpedicion" [disabled]="!persona.nivelGerarquico"
+                 [class.is-invalid]="mostrarErrores && errores['fechaExpedicion']"
+                 [attr.aria-invalid]="mostrarErrores && errores['fechaExpedicion'] ? true : null"
+                 aria-describedby="fechaExpedicionError"
+                 (ngModelChange)="limpiarError('fechaExpedicion',$event)"
+                 (blur)="validarCampo('fechaExpedicion')" />
+          <div id="fechaExpedicionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['fechaExpedicion']">
+            {{ errores['fechaExpedicion'] }}
+          </div>
         </div>
       </div>
     </div>
