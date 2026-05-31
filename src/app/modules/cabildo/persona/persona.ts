@@ -128,6 +128,10 @@ export class PersonaComponent {
   public onNivelJerarquicoChange(nuevoNivel: string) {
     const generoPorNivel = nuevoNivel === 'Hombre' ? 'Masculino' : nuevoNivel === 'Mujer' ? 'Femenino' : '';
 
+    if (nuevoNivel) {
+      delete this.errores['nivelGerarquico'];
+    }
+
     if (this.anteriorNivelGerarquico && nuevoNivel !== this.anteriorNivelGerarquico) {
       this.persona = {
         nivelGerarquico: nuevoNivel,
@@ -152,7 +156,6 @@ export class PersonaComponent {
         celular: '',
         telefono: ''
       };
-      this.errores = {};
       this.mostrarErrores = false;
     } else {
       this.persona.genero = generoPorNivel;
