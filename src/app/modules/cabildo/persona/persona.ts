@@ -138,7 +138,10 @@ export class PersonaComponent {
       delete this.errores['nivelGerarquico'];
     }
 
-    if (this.anteriorNivelGerarquico && nuevoNivel !== this.anteriorNivelGerarquico) {
+    // Si no hay identificación (creando nuevo), al cambiar el nivel reiniciamos el formulario
+    const estaCreando = !this.persona.identificacion || !this.persona.identificacion.trim();
+
+    if (estaCreando && (!this.anteriorNivelGerarquico || nuevoNivel !== this.anteriorNivelGerarquico)) {
       this.persona = {
         nivelGerarquico: nuevoNivel,
         estado: 'Activo',
@@ -164,12 +167,16 @@ export class PersonaComponent {
       };
       this.mostrarErrores = false;
     } else {
-      this.persona.genero = generoPorNivel;
-    }
-
-    if (nuevoNivel === 'Hijo') {
-      this.persona.hijosACargo = '0';
-      this.persona.estadoCivil = 'Soltero';
+      // Si estamos editando (registro cargado), preservamos los datos y solo actualizamos
+      // los campos derivados del nivel jerárquico (nivel, género, y valores por defecto si aplica).
+      this.persona.nivelGerarquico = nuevoNivel;
+      if (generoPorNivel) {
+        this.persona.genero = generoPorNivel;
+      }
+      if (nuevoNivel === 'Hijo') {
+        this.persona.hijosACargo = '0';
+        this.persona.estadoCivil = 'Soltero';
+      }
     }
 
     this.anteriorNivelGerarquico = nuevoNivel;
