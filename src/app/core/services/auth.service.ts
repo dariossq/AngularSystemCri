@@ -157,8 +157,8 @@ export class AuthService {
     return '_' + Math.random().toString(36).substr(2, 9);
   }
 
-  // Obtener lista de usuarios (empresas) desde la API
+  // Obtener lista de usuarios activos desde la API
   public getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario`);
+    return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario/UsuarioActivo`);
   }
 }
