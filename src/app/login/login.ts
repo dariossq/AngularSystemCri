@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
+import { Usuario } from '../shared/models/usuario.model';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { AuthService } from '../core/services/auth.service';
   templateUrl: './login.html',
   styleUrls: ['./login.scss'],
 })
-export class Login {
+export class Login implements OnInit {
   // Modo de formulario: 'login' o 'register'
   protected isLoginMode = signal(true);
 
@@ -19,10 +20,7 @@ export class Login {
   protected loginUsername = signal('');
   protected loginPassword = signal('');
   // Empresas disponibles y selección
-  protected companies = [
-    { id: 'TERRITORIO1', name: 'TERRITORIO1' },
-    { id: 'SYSTEMCRI', name: 'SYSTEMCRI' }
-  ];
+  protected companies = signal<Usuario[]>([]);
   protected selectedCompany = signal('');
 
   // Datos del formulario de registro
@@ -37,11 +35,32 @@ export class Login {
   protected isLoading = signal(false);
   protected showPassword = signal(false);
   protected showConfirmPassword = signal(false);
+  protected loadingCompanies = signal(false);
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.loadCompanies();
+  }
+
+  // Cargar empresas desde la API
+  private loadCompanies(): void {
+    this.loadingCompanies.set(true);
+    this.authService.getUsuarios().subscribe({
+      next: (usuarios) => {
+        this.companies.set(usuarios);
+        this.loadingCompanies.set(false);
+      },
+      error: (error) => {
+        console.error('Error al cargar empresas:', error);
+        this.errorMessage.set('No se pudieron cargar las empresas');
+        this.loadingCompanies.set(false);
+      }
+    });
+  }
 
   // Cambiar entre modo login y registro
   protected toggleMode(): void {

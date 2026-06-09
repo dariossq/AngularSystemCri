@@ -159,7 +159,7 @@
           <input id="identificacion" type="text" class="form-control"
                [class.is-invalid]="(mostrarErrores && errores['identificacion']) || errores['identificacion']"
                [attr.aria-invalid]="(mostrarErrores && errores['identificacion']) || errores['identificacion'] ? true : null"
-               aria-describedby="identificacionError" [(ngModel)]="persona.identificacion" (ngModelChange)="onIdentificacionChange($event)" (blur)="validarCampo('identificacion')"
+               aria-describedby="identificacionError" [(ngModel)]="persona.identificacion" (ngModelChange)="onIdentificacionChange($event)" (input)="onIdentificacionInput($event)" (blur)="validarCampo('identificacion')"
                name="identificacion" placeholder="Ej: 10617052" inputmode="numeric"
                pattern="[0-9]*" maxlength="11" autocomplete="off" [disabled]="!persona.nivelGerarquico" required />
           <div id="identificacionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['identificacion']">
@@ -453,12 +453,6 @@
         </tbody>
       </table>
     </div>
-  </div>
-
-  <div class="empty-state" *ngIf="registros.length === 0" aria-live="polite">
-    <i class="fa fa-inbox" aria-hidden="true"></i>
-    <p>No hay registros capturados aún</p>
-    <small>Complete el formulario y presione REGISTRAR para agregar registros</small>
   </div>
 
    <!-- <div class="row mt-4">

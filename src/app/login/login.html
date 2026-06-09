@@ -53,10 +53,16 @@
         <!-- Selector de empresa -->
         <div class="form-group company-group">
           <label for="company-select">Empresa</label>
-          <select id="company-select" name="selectedCompany" [(ngModel)]="selectedCompany" class="company-select" required>
-            <option value="" disabled [selected]="!selectedCompany()">Seleccione empresa</option>
-            <option *ngFor="let c of companies" [value]="c.id">{{ c.name }}</option>
-          </select>
+          @if (loadingCompanies()) {
+            <div class="loading-companies">Cargando empresas...</div>
+          } @else {
+            <select id="company-select" name="selectedCompany" [(ngModel)]="selectedCompany" class="company-select" required>
+              <option value="" disabled [selected]="!selectedCompany()">Seleccione empresa</option>
+              @for (c of companies(); track c.id) {
+                <option [value]="c.id">{{ c.usuarioNombre }}</option>
+              }
+            </select>
+          }
         </div>
         <!-- Campo Usuario -->
         <div class="form-group">

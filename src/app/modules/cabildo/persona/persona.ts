@@ -188,6 +188,15 @@ export class PersonaComponent {
     this.limpiarError('identificacion', soloDigitos);
   }
 
+  public onIdentificacionInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const soloDigitos = (input.value || '').replace(/\D/g, '').slice(0, 11);
+    if (input.value !== soloDigitos) {
+      input.value = soloDigitos;
+    }
+    this.persona.identificacion = soloDigitos;
+  }
+
   public setGenero(valor: string) {
     if (!this.persona.nivelGerarquico) {
       return;

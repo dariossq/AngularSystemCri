@@ -1,6 +1,9 @@
 import { Injectable, signal, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Usuario } from '../../shared/models/usuario.model';
 
 interface User {
   id: string;
@@ -15,6 +18,10 @@ export class AuthService {
   // Inyecciones necesarias
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
+  private http = inject(HttpClient);
+  
+  // URL base de la API
+  private apiUrl = 'http://localhost:5078/api';
 
   // Señal para usuario autenticado
   private currentUser = signal<User | null>(null);
@@ -148,5 +155,10 @@ export class AuthService {
   // Generar ID único
   private generateId(): string {
     return '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // Obtener lista de usuarios (empresas) desde la API
+  public getUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario`);
   }
 }
