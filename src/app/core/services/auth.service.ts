@@ -2,8 +2,10 @@ import { Injectable, signal, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { Usuario } from '../../shared/models/usuario.model';
+import { getApiUrl } from '../../config';
 
 interface User {
   id: string;
@@ -20,8 +22,8 @@ export class AuthService {
   private platformId = inject(PLATFORM_ID);
   private http = inject(HttpClient);
   
-  // URL base de la API
-  private apiUrl = 'http://localhost:5078/api';
+  // URL base de la API (obtenida en runtime desde `window.__env` o valor por defecto)
+  private apiUrl = getApiUrl();
 
   // Señal para usuario autenticado
   private currentUser = signal<User | null>(null);
@@ -160,5 +162,62 @@ export class AuthService {
   // Obtener lista de usuarios activos desde la API
   public getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario/UsuarioActivo`);
+  }
+
+  
+
+  // Codifica la cadena usando el mismo algoritmo que el backend C#:
+  // System.Text.Encoding.Unicode.GetBytes(...) -> Convert.ToBase64String(...)
+  private encodeUnicodeBase64(value: string): string {
+    const buf = new ArrayBuffer(value.length * 2);
+    const bufView = new Uint16Array(buf);
+    for (let i = 0; i < value.length; i++) {
+      bufView[i] = value.charCodeAt(i);
+    }
+    const bytes = new Uint8Array(buf);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  }
+
+  // Login remoto contra el endpoint de Seguridad. Devuelve Observable<boolean>.
+  // Este método intenta obtener la lista de seguridad y buscar una coincidencia
+  // entre usuario y contraseña codificada (igual que el backend C# mostrada).
+  // Nota: es preferible que el backend exponga un endpoint POST de autenticación
+  // que devuelva un token (JWT). Aquí hacemos lo mínimo compatible con el
+  // servicio existente.
+  public loginRemote(username: string, password: string): Observable<boolean> {
+    const encoded = this.encodeUnicodeBase64(password);
+    return this.http.get<any[]>(`${this.apiUrl}/Seguridad`).pipe(
+      map(list => {
+        if (!Array.isArray(list)) return false;
+        const found = list.find(item => {
+          // Normalizar campos por si vienen con otros nombres
+          const userField = item.seguridadPer ?? item.seguridadUsuario ?? item.usuario ?? '';
+          const passField = item.seguridadContra ?? item.seguridadPass ?? item.contrasena ?? '';
+          return userField === username && passField === encoded;
+        });
+
+        if (found) {
+          const userData = {
+            id: found.id ? String(found.id) : this.generateId(),
+            username,
+            email: (found.email as string) ?? `${username}@local`
+          };
+          this.currentUser.set(userData);
+          this.isAuthenticatedSignal.set(true);
+          this.saveUserToStorage(userData);
+          return true;
+        }
+
+        return false;
+      }),
+      catchError(err => {
+        console.error('Error en loginRemote:', err);
+        return of(false);
+      })
+    );
   }
 }

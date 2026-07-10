@@ -84,25 +84,24 @@ export class Login implements OnInit {
     }
 
     this.isLoading.set(true);
-
-    // Simular delay de autenticación
-    setTimeout(() => {
-      const success = this.authService.login(
-        this.loginUsername(),
-        this.loginPassword()
-      );
-
-      if (success) {
-        this.successMessage.set('¡Login exitoso!');
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 1000);
-      } else {
-        this.errorMessage.set('Usuario o contraseña incorrectos');
+    // Llamada remota al backend. AuthService.loginRemote codifica la contraseña
+    // de la misma forma que el backend C# (UTF-16LE -> Base64) antes de comparar.
+    this.authService.loginRemote(this.loginUsername(), this.loginPassword()).subscribe({
+      next: (success) => {
+        if (success) {
+          this.successMessage.set('¡Login exitoso!');
+          setTimeout(() => this.router.navigate(['/']), 800);
+        } else {
+          this.errorMessage.set('Usuario o contraseña incorrectos');
+        }
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error al autenticar:', err);
+        this.errorMessage.set('Ocurrió un error al conectar con el servidor');
+        this.isLoading.set(false);
       }
-
-      this.isLoading.set(false);
-    }, 800);
+    });
   }
 
   // Realizar registro
