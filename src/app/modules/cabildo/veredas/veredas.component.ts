@@ -55,10 +55,17 @@ export class RegistroVeredasComponent {
       return;
     }
 
+    const userId = typeof usuario.id === 'number' ? usuario.id : Number(usuario.id);
+
+    if (!Number.isFinite(userId)) {
+      this.errorMessage.set('El usuario autenticado no tiene un ID válido. Vuelve a iniciar sesión.');
+      return;
+    }
+
     const payload = {
       veredaNom: nombre,
       veredaUbicacion: ubicacion,
-      usuarioId: Number(usuario.id)
+      usuarioId: userId
     };
 
     this.veredasService.create(payload).subscribe({

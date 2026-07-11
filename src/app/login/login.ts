@@ -21,7 +21,7 @@ export class Login implements OnInit {
   protected loginPassword = signal('');
   // Empresas disponibles y selección
   protected companies = signal<Usuario[]>([]);
-  protected selectedCompany = signal('');
+  protected selectedCompany = signal<number | null>(null);
 
   // Datos del formulario de registro
   protected registerUsername = signal('');
@@ -51,7 +51,11 @@ export class Login implements OnInit {
     this.loadingCompanies.set(true);
     this.authService.getUsuarios().subscribe({
       next: (usuarios) => {
-        this.companies.set(usuarios);
+        const normalized = usuarios.map((u: any) => ({
+          ...u,
+          usuarioId: u.usuarioId ?? u.id ?? u.USUARIO_ID ?? u.usuario_Id ?? u.usuarioId
+        }));
+        this.companies.set(normalized);
         this.loadingCompanies.set(false);
       },
       error: (error) => {
@@ -78,7 +82,7 @@ export class Login implements OnInit {
   protected onLogin(): void {
     this.clearMessages();
 
-    if (!this.selectedCompany() || !this.loginUsername() || !this.loginPassword()) {
+    if (this.selectedCompany() === null || !this.loginUsername() || !this.loginPassword()) {
       this.errorMessage.set('Por favor completa todos los campos');
       return;
     }
@@ -86,7 +90,7 @@ export class Login implements OnInit {
     this.isLoading.set(true);
     // Llamada remota al backend. AuthService.loginRemote codifica la contraseña
     // de la misma forma que el backend C# (UTF-16LE -> Base64) antes de comparar.
-    this.authService.loginRemote(this.loginUsername(), this.loginPassword()).subscribe({
+    this.authService.loginRemote(this.loginUsername(), this.loginPassword(), Number(this.selectedCompany())).subscribe({
       next: (success) => {
         if (success) {
           this.successMessage.set('¡Login exitoso!');

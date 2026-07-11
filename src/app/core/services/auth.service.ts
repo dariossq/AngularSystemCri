@@ -8,7 +8,7 @@ import { Usuario } from '../../shared/models/usuario.model';
 import { getApiUrl } from '../../config';
 
 interface User {
-  id: string;
+  id: string | number;
   username: string;
   email: string;
 }
@@ -161,11 +161,6 @@ export class AuthService {
 
   // Obtener lista de usuarios activos desde la API
   public getUsuarios(): Observable<Usuario[]> {
-    // Evitar llamadas durante SSR/prerender
-    if (!isPlatformBrowser(this.platformId)) {
-      return of([]);
-    }
-
     return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario/UsuarioActivo`).pipe(
       catchError(err => {
         console.error('Error cargando usuarios:', err);
@@ -199,7 +194,7 @@ export class AuthService {
   // Nota: es preferible que el backend exponga un endpoint POST de autenticación
   // que devuelva un token (JWT). Aquí hacemos lo mínimo compatible con el
   // servicio existente.
-  public loginRemote(username: string, password: string): Observable<boolean> {
+  public loginRemote(username: string, password: string, companyId?: number): Observable<boolean> {
     const encoded = this.encodeUnicodeBase64(password);
     return this.http.get<any[]>(`${this.apiUrl}/Seguridad`).pipe(
       map(list => {
@@ -212,8 +207,15 @@ export class AuthService {
         });
 
         if (found) {
-          const userData = {
-            id: found.id ? String(found.id) : this.generateId(),
+          const foundId = found.id;
+          const parsedId = typeof foundId === 'number' ? foundId : Number(foundId);
+          const effectiveId: string | number = Number.isFinite(companyId ?? NaN)
+            ? companyId!
+            : Number.isFinite(parsedId)
+              ? parsedId
+              : this.generateId();
+          const userData: User = {
+            id: effectiveId,
             username,
             email: (found.email as string) ?? `${username}@local`
           };
@@ -230,8 +232,9 @@ export class AuthService {
         // Intentar login local como fallback si la API falla
         const user = this.users.get(username);
         if (user && user.password === this.hashPassword(password)) {
+          const userId = Number.isFinite(companyId ?? NaN) ? companyId! : this.generateId();
           const userData: User = {
-            id: this.generateId(),
+            id: userId,
             username,
             email: user.email
           };

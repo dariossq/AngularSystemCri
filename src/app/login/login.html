@@ -57,9 +57,9 @@
             <div class="loading-companies">Cargando empresas...</div>
           } @else {
             <select id="company-select" name="selectedCompany" [(ngModel)]="selectedCompany" class="company-select" required>
-              <option value="" disabled [selected]="!selectedCompany()">Seleccione empresa</option>
-              @for (c of companies(); track c.id) {
-                <option [value]="c.id">{{ c.usuarioNombre }}</option>
+              <option [ngValue]="null" disabled [selected]="selectedCompany() === null">Seleccione empresa</option>
+              @for (c of companies(); track c.usuarioId) {
+                <option [ngValue]="c.usuarioId">{{ c.usuarioNombre }}</option>
               }
             </select>
           }
