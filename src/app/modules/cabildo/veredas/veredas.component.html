@@ -14,17 +14,27 @@
       </div>
       <div class="card-body">
         <form>
+          @if (errorMessage()) {
+            <div class="alert alert-danger mb-3">
+              {{ errorMessage() }}
+            </div>
+          }
+          @if (successMessage()) {
+            <div class="alert alert-success mb-3">
+              {{ successMessage() }}
+            </div>
+          }
           <div class="mb-3">
             <label for="veredaNombre" class="form-label">Nombre vereda</label>
-            <input id="veredaNombre" class="form-control" type="text" placeholder="Escribe el nombre de la vereda" />
+            <input id="veredaNombre" class="form-control" type="text" placeholder="Escribe el nombre de la vereda" [(ngModel)]="veredaNombre" name="veredaNombre" />
           </div>
           <div class="mb-3">
             <label for="veredaUbicacion" class="form-label">Descripción geográfica</label>
-            <textarea id="veredaUbicacion" class="form-control" rows="3" placeholder="Ubicación geográfica..."></textarea>
+            <textarea id="veredaUbicacion" class="form-control" rows="3" placeholder="Ubicación geográfica..." [(ngModel)]="veredaUbicacion" name="veredaUbicacion"></textarea>
           </div>
           <div class="button-row">
-            <button type="button" class="btn btn-success">Registrar</button>
-            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+            <button type="button" class="btn btn-success" (click)="onRegister()">Registrar</button>
+            <button type="button" class="btn btn-outline-danger" (click)="veredaNombre.set(''); veredaUbicacion.set('')">Cancelar</button>
           </div>
         </form>
       </div>
@@ -46,33 +56,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="text-center">🔎</td>
-              <td>Balconcruz</td>
-              <td>Se encuentra ubicada</td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary me-2">Editar</button>
-                <button class="btn btn-sm btn-outline-secondary">Ver</button>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">🔎</td>
-              <td>Cajón Centro</td>
-              <td>Se encuentra ubicada</td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary me-2">Editar</button>
-                <button class="btn btn-sm btn-outline-secondary">Ver</button>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">🔎</td>
-              <td>Cerro Alto</td>
-              <td>Se encuentra ubicada</td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary me-2">Editar</button>
-                <button class="btn btn-sm btn-outline-secondary">Ver</button>
-              </td>
-            </tr>
+            @for (v of veredas(); track v.id) {
+              <tr>
+                <td class="text-center">🔎</td>
+                <td>{{ v.veredaNom || v.veredaNombre || v.nombre }}</td>
+                <td>{{ v.veredaUbicacion }}</td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(v)">Editar</button>
+                  <button class="btn btn-sm btn-outline-secondary" (click)="onDelete(v.id)">Eliminar</button>
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>

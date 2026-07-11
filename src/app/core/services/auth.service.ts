@@ -161,6 +161,11 @@ export class AuthService {
 
   // Obtener lista de usuarios activos desde la API
   public getUsuarios(): Observable<Usuario[]> {
+    // Evitar llamadas durante SSR/prerender
+    if (!isPlatformBrowser(this.platformId)) {
+      return of([]);
+    }
+
     return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario/UsuarioActivo`).pipe(
       catchError(err => {
         console.error('Error cargando usuarios:', err);
