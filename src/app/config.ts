@@ -7,7 +7,9 @@ export function getApiUrl(): string {
   } catch (e) {
     // ignore
   }
-  return 'http://localhost:5078/api';
+  // Durante desarrollo, el proxy se encargará de redirigir a localhost:5078
+  // En producción, usa la URL del env.js
+  return '/api';
 }
 
 export function setApiUrl(url: string): void {

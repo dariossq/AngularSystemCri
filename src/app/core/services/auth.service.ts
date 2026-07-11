@@ -161,7 +161,13 @@ export class AuthService {
 
   // Obtener lista de usuarios activos desde la API
   public getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario/UsuarioActivo`);
+    return this.http.get<Usuario[]>(`${this.apiUrl}/Usuario/UsuarioActivo`).pipe(
+      catchError(err => {
+        console.error('Error cargando usuarios:', err);
+        // Retornar array vacío por defecto para no bloquear la UI
+        return of([]);
+      })
+    );
   }
 
   
@@ -216,6 +222,19 @@ export class AuthService {
       }),
       catchError(err => {
         console.error('Error en loginRemote:', err);
+        // Intentar login local como fallback si la API falla
+        const user = this.users.get(username);
+        if (user && user.password === this.hashPassword(password)) {
+          const userData: User = {
+            id: this.generateId(),
+            username,
+            email: user.email
+          };
+          this.currentUser.set(userData);
+          this.isAuthenticatedSignal.set(true);
+          this.saveUserToStorage(userData);
+          return of(true);
+        }
         return of(false);
       })
     );

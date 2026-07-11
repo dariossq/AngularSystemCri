@@ -26,15 +26,15 @@ export const routes: Routes = [
       },
       {
         path: 'cabildo/veredas/registro-veredas',
-        loadComponent: () => import('./modules/cabildo/veredas/registro-veredas.component').then(m => m.RegistroVeredasComponent)
+        loadComponent: () => import('./modules/cabildo/veredas/veredas.component').then(m => m.RegistroVeredasComponent)
       },
       {
         path: 'cabildo/veredas/asignacion-cargo',
-        loadComponent: () => import('./modules/cabildo/veredas/asignacion-cargo/asignacion-cargo.component').then(m => m.AsignacionCargoComponent)
+        loadComponent: () => import('./modules/cabildo/cabildantes/asignacion-cargo/asignacion-cargo.component').then(m => m.AsignacionCargoComponent)
       },
       {
         path: 'cabildo/veredas/reporte-por-anio',
-        loadComponent: () => import('./modules/cabildo/veredas/reporte-por-anio/reporte-por-anio.component').then(m => m.ReportePorAnioComponent)
+        loadComponent: () => import('./modules/cabildo/cabildantes/reporte-por-anio/reporte-por-anio.component').then(m => m.ReportePorAnioComponent)
       },
       {
         path: 'cabildo/obligacion-colaboracion',

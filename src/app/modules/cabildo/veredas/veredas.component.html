@@ -1,0 +1,81 @@
+<section class="page-wrapper">
+  <header class="page-header">
+    <div>
+      <!-- <p class="section-label">Gestión de vereda</p> -->
+      <h1>{{ title }}</h1>
+      <p class="section-description">{{ description }}</p>
+    </div>
+  </header>
+
+  <div class="content-grid">
+    <div class="card form-card">
+      <div class="card-header">
+        <h2>Crear / editar vereda</h2>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="mb-3">
+            <label for="veredaNombre" class="form-label">Nombre vereda</label>
+            <input id="veredaNombre" class="form-control" type="text" placeholder="Escribe el nombre de la vereda" />
+          </div>
+          <div class="mb-3">
+            <label for="veredaUbicacion" class="form-label">Descripción geográfica</label>
+            <textarea id="veredaUbicacion" class="form-control" rows="3" placeholder="Ubicación geográfica..."></textarea>
+          </div>
+          <div class="button-row">
+            <button type="button" class="btn btn-success">Registrar</button>
+            <button type="button" class="btn btn-outline-danger">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card table-card">
+      <div class="card-header">
+        <h2>Lista de veredas registradas</h2>
+        <span class="text-muted">Veredas registradas</span>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light text-uppercase small">
+            <tr>
+              <th class="text-center">Sel.</th>
+              <th>Vereda</th>
+              <th>Ubicación</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center">🔎</td>
+              <td>Balconcruz</td>
+              <td>Se encuentra ubicada</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-primary me-2">Editar</button>
+                <button class="btn btn-sm btn-outline-secondary">Ver</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-center">🔎</td>
+              <td>Cajón Centro</td>
+              <td>Se encuentra ubicada</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-primary me-2">Editar</button>
+                <button class="btn btn-sm btn-outline-secondary">Ver</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-center">🔎</td>
+              <td>Cerro Alto</td>
+              <td>Se encuentra ubicada</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-primary me-2">Editar</button>
+                <button class="btn btn-sm btn-outline-secondary">Ver</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

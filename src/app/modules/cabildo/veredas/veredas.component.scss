@@ -1,0 +1,124 @@
+.page-wrapper {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.section-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4b5d7c;
+  margin-bottom: 0.25rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.2vw, 2.6rem);
+  color: #0f2b51;
+}
+
+.section-description {
+  max-width: 760px;
+  color: #5f6674;
+  line-height: 1.75;
+}
+
+.content-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(15, 43, 81, 0.08);
+  border: 1px solid rgba(15, 43, 81, 0.08);
+}
+
+.card-header {
+  padding: 1.5rem 1.5rem 0.75rem;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #112d4e;
+}
+
+.card-header span {
+  display: block;
+  margin-top: 0.5rem;
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-card .form-label {
+  font-weight: 600;
+  color: #283046;
+}
+
+.form-card input,
+.form-card textarea {
+  border-radius: 0.75rem;
+  border-color: #ced4da;
+  box-shadow: none;
+}
+
+.form-card .btn {
+  min-width: 130px;
+}
+
+.button-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.table-card .table-responsive {
+  overflow-x: auto;
+}
+
+.table-card table {
+  min-width: 640px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.table-card thead {
+  background: #f7f9fc;
+}
+
+.table-card tbody tr:hover {
+  background: rgba(15, 43, 81, 0.04);
+}
+
+.table-card td,
+.table-card th {
+  vertical-align: middle;
+  border-top: none;
+  padding: 1rem 1.25rem;
+}
+
+.table-card .btn-outline-primary,
+.table-card .btn-outline-secondary {
+  border-radius: 999px;
+}
+
+@media (min-width: 992px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}

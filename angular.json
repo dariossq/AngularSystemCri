@@ -73,7 +73,8 @@
               "buildTarget": "SystemCri:build:production"
             },
             "development": {
-              "buildTarget": "SystemCri:build:development"
+              "buildTarget": "SystemCri:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
