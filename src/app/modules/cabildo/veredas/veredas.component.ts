@@ -110,6 +110,14 @@ export class RegistroVeredasComponent {
     });
   }
 
+  protected onCancel(): void {
+    this.veredaNombre.set('');
+    this.veredaUbicacion.set('');
+    this.errores = {};
+    this.mostrarErrores = false;
+    this.errorMessage.set('');
+  }
+
   protected onDelete(id: any): void {
     if (!id) return;
     this.veredasService.delete(id).subscribe({
@@ -128,5 +136,29 @@ export class RegistroVeredasComponent {
 
   protected cerrarMensajeExito(): void {
     this.successMessage.set('');
+  }
+
+  protected limpiarError(campo: string, valor: any): void {
+    if (valor !== '' && valor !== null && valor !== undefined) {
+      delete this.errores[campo];
+    }
+  }
+
+  protected validarCampo(campo: string): void {
+    const valor = campo === 'veredaNombre' 
+      ? this.veredaNombre().trim()
+      : campo === 'veredaUbicacion'
+      ? this.veredaUbicacion().trim()
+      : '';
+
+    if (!valor) {
+      if (campo === 'veredaNombre') {
+        this.errores[campo] = 'Nombre vereda es requerido';
+      } else if (campo === 'veredaUbicacion') {
+        this.errores[campo] = 'Descripción geográfica es requerida';
+      }
+    } else {
+      delete this.errores[campo];
+    }
   }
 }

@@ -29,32 +29,31 @@
         <h2>Crear / editar vereda</h2>
       </div>
       <div class="card-body">
-        <!-- <div class="form-intro">
-          <p>Todos los campos marcados con <span class="required">*</span> son obligatorios.</p>
-        </div> -->
         <form>
           @if (errorMessage()) {
             <div class="alert alert-danger mb-3">
               {{ errorMessage() }}
             </div>
           }
-          <div class="mb-3">
-            <label for="veredaNombre" class="form-label">Nombre vereda <span class="required">*</span></label>
-            <input id="veredaNombre" class="form-control" type="text" placeholder="Escribe el nombre de la vereda" [(ngModel)]="veredaNombre" name="veredaNombre" [class.is-invalid]="mostrarErrores && errores['veredaNombre']" required />
-            <div id="veredaNombreError" class="invalid-feedback" *ngIf="mostrarErrores && errores['veredaNombre']">
-              {{ errores['veredaNombre'] }}
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label for="veredaNombre" class="form-label">Nombre vereda <span class="required">*</span></label>
+              <input id="veredaNombre" class="form-control" type="text" placeholder="Escribe el nombre de la vereda" [(ngModel)]="veredaNombre" (ngModelChange)="limpiarError('veredaNombre', $event)" (blur)="validarCampo('veredaNombre')" name="veredaNombre" [class.is-invalid]="mostrarErrores && errores['veredaNombre']" required />
+              <div id="veredaNombreError" class="invalid-feedback" *ngIf="mostrarErrores && errores['veredaNombre']">
+                {{ errores['veredaNombre'] }}
+              </div>
             </div>
-          </div>
-          <div class="mb-3">
-            <label for="veredaUbicacion" class="form-label">Descripción geográfica <span class="required">*</span></label>
-            <textarea id="veredaUbicacion" class="form-control" rows="3" placeholder="Ubicación geográfica..." [(ngModel)]="veredaUbicacion" name="veredaUbicacion" [class.is-invalid]="mostrarErrores && errores['veredaUbicacion']" required></textarea>
-            <div id="veredaUbicacionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['veredaUbicacion']">
-              {{ errores['veredaUbicacion'] }}
+            <div class="col-12 col-md-6">
+              <label for="veredaUbicacion" class="form-label">Descripción geográfica <span class="required">*</span></label>
+              <textarea id="veredaUbicacion" class="form-control" rows="2" placeholder="Ubicación geográfica..." [(ngModel)]="veredaUbicacion" (ngModelChange)="limpiarError('veredaUbicacion', $event)" (blur)="validarCampo('veredaUbicacion')" name="veredaUbicacion" [class.is-invalid]="mostrarErrores && errores['veredaUbicacion']" required></textarea>
+              <div id="veredaUbicacionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['veredaUbicacion']">
+                {{ errores['veredaUbicacion'] }}
+              </div>
             </div>
           </div>
           <div class="button-row">
             <button type="button" class="btn btn-success" (click)="onRegister()">Registrar</button>
-            <button type="button" class="btn btn-outline-danger" (click)="veredaNombre.set(''); veredaUbicacion.set('')">Cancelar</button>
+            <button type="button" class="btn btn-outline-danger" (click)="onCancel()">Cancelar</button>
           </div>
         </form>
       </div>
@@ -62,8 +61,8 @@
 
     <div class="card table-card">
       <div class="card-header">
-        <h2>Lista de veredas registradas</h2>
-        <span class="text-muted">Veredas registradas</span>
+        <h2>veredas registradas</h2>
+        <!-- <span class="text-muted">Veredas registradas</span> -->
       </div>
       <div class="card-body table-responsive">
         <table class="table table-hover align-middle">
