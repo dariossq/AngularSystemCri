@@ -1,11 +1,27 @@
 <section class="page-wrapper">
-  <header class="page-header">
-    <div>
+  <!-- Modal de éxito -->
+  <div class="modal-overlay" *ngIf="successMessage()">
+    <div class="modal-popup" role="alert" aria-live="assertive">
+      <div class="modal-content">
+        <div class="modal-icon success">
+          <i class="fa fa-check-circle" aria-hidden="true"></i>
+        </div>
+        <h3 class="modal-title">¡Éxito!</h3>
+        <p class="modal-message">{{ successMessage() }}</p>
+        <button type="button" class="btn-modal-close" (click)="cerrarMensajeExito()" aria-label="Cerrar mensaje">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <header class="page-header">
+    <div> -->
       <!-- <p class="section-label">Gestión de vereda</p> -->
-      <h1>{{ title }}</h1>
+      <!-- <h1>{{ title }}</h1>
       <p class="section-description">{{ description }}</p>
     </div>
-  </header>
+  </header> -->
 
   <div class="content-grid">
     <div class="card form-card">
@@ -13,24 +29,28 @@
         <h2>Crear / editar vereda</h2>
       </div>
       <div class="card-body">
+        <!-- <div class="form-intro">
+          <p>Todos los campos marcados con <span class="required">*</span> son obligatorios.</p>
+        </div> -->
         <form>
           @if (errorMessage()) {
             <div class="alert alert-danger mb-3">
               {{ errorMessage() }}
             </div>
           }
-          @if (successMessage()) {
-            <div class="alert alert-success mb-3">
-              {{ successMessage() }}
-            </div>
-          }
           <div class="mb-3">
-            <label for="veredaNombre" class="form-label">Nombre vereda</label>
-            <input id="veredaNombre" class="form-control" type="text" placeholder="Escribe el nombre de la vereda" [(ngModel)]="veredaNombre" name="veredaNombre" />
+            <label for="veredaNombre" class="form-label">Nombre vereda <span class="required">*</span></label>
+            <input id="veredaNombre" class="form-control" type="text" placeholder="Escribe el nombre de la vereda" [(ngModel)]="veredaNombre" name="veredaNombre" [class.is-invalid]="mostrarErrores && errores['veredaNombre']" required />
+            <div id="veredaNombreError" class="invalid-feedback" *ngIf="mostrarErrores && errores['veredaNombre']">
+              {{ errores['veredaNombre'] }}
+            </div>
           </div>
           <div class="mb-3">
-            <label for="veredaUbicacion" class="form-label">Descripción geográfica</label>
-            <textarea id="veredaUbicacion" class="form-control" rows="3" placeholder="Ubicación geográfica..." [(ngModel)]="veredaUbicacion" name="veredaUbicacion"></textarea>
+            <label for="veredaUbicacion" class="form-label">Descripción geográfica <span class="required">*</span></label>
+            <textarea id="veredaUbicacion" class="form-control" rows="3" placeholder="Ubicación geográfica..." [(ngModel)]="veredaUbicacion" name="veredaUbicacion" [class.is-invalid]="mostrarErrores && errores['veredaUbicacion']" required></textarea>
+            <div id="veredaUbicacionError" class="invalid-feedback" *ngIf="mostrarErrores && errores['veredaUbicacion']">
+              {{ errores['veredaUbicacion'] }}
+            </div>
           </div>
           <div class="button-row">
             <button type="button" class="btn btn-success" (click)="onRegister()">Registrar</button>

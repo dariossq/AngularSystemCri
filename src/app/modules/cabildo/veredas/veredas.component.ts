@@ -19,6 +19,8 @@ export class RegistroVeredasComponent {
   protected veredas = signal<any[]>([]);
   protected errorMessage = signal('');
   protected successMessage = signal('');
+  protected errores: { [key: string]: string } = {};
+  protected mostrarErrores = false;
 
   private veredasService = inject(VeredasService);
   private authService = inject(AuthService);
@@ -49,15 +51,26 @@ export class RegistroVeredasComponent {
   protected onRegister(): void {
     this.errorMessage.set('');
     this.successMessage.set('');
+    this.errores = {};
+    this.mostrarErrores = true;
 
     const nombre = this.veredaNombre().trim();
     const ubicacion = this.veredaUbicacion().trim();
-    const usuario = this.currentUser();
 
-    if (!nombre || !ubicacion) {
-      this.errorMessage.set('Completa el nombre y la ubicación de la vereda.');
+    // Validar campos
+    if (!nombre) {
+      this.errores['veredaNombre'] = 'Nombre vereda es requerido';
+    }
+    if (!ubicacion) {
+      this.errores['veredaUbicacion'] = 'Descripción geográfica es requerida';
+    }
+
+    // Si hay errores, no continuar
+    if (Object.keys(this.errores).length > 0) {
       return;
     }
+
+    const usuario = this.currentUser();
 
     if (!usuario?.id) {
       this.errorMessage.set('No se encontró el usuario autenticado. Inicia sesión nuevamente.');
@@ -83,6 +96,12 @@ export class RegistroVeredasComponent {
         this.veredaNombre.set('');
         this.veredaUbicacion.set('');
         this.successMessage.set('Vereda registrada correctamente.');
+        this.errores = {};
+        this.mostrarErrores = false;
+        // Cerrar el modal de éxito después de 3 segundos
+        setTimeout(() => {
+          this.successMessage.set('');
+        }, 3000);
       },
       error: (err) => {
         console.error('Error creando vereda:', err);
@@ -105,5 +124,9 @@ export class RegistroVeredasComponent {
     if (!item) return;
     this.veredaNombre.set(item.veredaNom || item.veredaNombre || '');
     this.veredaUbicacion.set(item.veredaUbicacion || '');
+  }
+
+  protected cerrarMensajeExito(): void {
+    this.successMessage.set('');
   }
 }
