@@ -61,7 +61,33 @@
 
     <div class="card table-card">
       <div class="card-header">
-        <h2><i class="fa fa-map-marker" aria-hidden="true"></i> Veredas Registradas ({{ veredas().length }})</h2>
+        <h2><i class="fa fa-map-marker" aria-hidden="true"></i> Veredas Registradas ({{ getVeredasFiltradas().length }})</h2>
+        
+        <!-- Campo de búsqueda -->
+        <div class="search-container">
+          <div class="search-input-wrapper">
+            <i class="fa fa-search search-icon" aria-hidden="true"></i>
+            <input 
+              type="text" 
+              class="search-input" 
+              placeholder="Buscar por nombre o ubicación..." 
+              [value]="searchTerm()"
+              (input)="onSearchChange($event.target.value)"
+              aria-label="Buscar veredas">
+            <button 
+              *ngIf="searchTerm()" 
+              type="button" 
+              class="search-clear-btn" 
+              (click)="limpiarBusqueda()" 
+              title="Limpiar búsqueda"
+              aria-label="Limpiar búsqueda">
+              <i class="fa fa-times-circle" aria-hidden="true"></i>
+            </button>
+          </div>
+          @if (searchTerm()) {
+            <span class="search-results-info">{{ getVeredasFiltradas().length }} resultado(s) encontrado(s)</span>
+          }
+        </div>
       </div>
       <div class="card-body table-responsive">
         <table class="table table-hover align-middle">
@@ -84,6 +110,22 @@
                   <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(v.id)" title="Eliminar vereda">
                     <i class="fa fa-trash-alt" aria-hidden="true"></i>
                   </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr class="no-results-row">
+                <td colspan="3">
+                  <div class="no-results-content">
+                    <i class="fa fa-search no-results-icon" aria-hidden="true"></i>
+                    @if (searchTerm()) {
+                      <p class="no-results-text">No se encontraron veredas que coincidan con "<strong>{{ searchTerm() }}</strong>"</p>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="limpiarBusqueda()">
+                        <i class="fa fa-refresh" aria-hidden="true"></i> Limpiar búsqueda
+                      </button>
+                    } @else {
+                      <p class="no-results-text">No hay veredas registradas</p>
+                    }
+                  </div>
                 </td>
               </tr>
             }

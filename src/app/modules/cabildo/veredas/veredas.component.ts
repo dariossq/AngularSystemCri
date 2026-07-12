@@ -17,6 +17,7 @@ export class RegistroVeredasComponent {
   protected veredaNombre = signal('');
   protected veredaUbicacion = signal('');
   protected veredas = signal<any[]>([]);
+  protected searchTerm = signal('');
   protected errorMessage = signal('');
   protected successMessage = signal('');
   protected errores: { [key: string]: string } = {};
@@ -168,19 +169,34 @@ export class RegistroVeredasComponent {
   }
 
   // Métodos de paginación
-  protected getVeredasPaginadas(): any[] {
+  protected getVeredasFiltradas(): any[] {
     const veredas = this.veredas();
+    const search = this.searchTerm().toLowerCase().trim();
+
+    if (!search) {
+      return veredas;
+    }
+
+    return veredas.filter(v => {
+      const nombre = (v.veredaNom || v.veredaNombre || v.nombre || '').toLowerCase();
+      const ubicacion = (v.veredaUbicacion || '').toLowerCase();
+      return nombre.includes(search) || ubicacion.includes(search);
+    });
+  }
+
+  protected getVeredasPaginadas(): any[] {
+    const veredasFiltradas = this.getVeredasFiltradas();
     const pageSize = this.pageSize();
     const currentPage = this.currentPage();
     
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     
-    return veredas.slice(startIndex, endIndex);
+    return veredasFiltradas.slice(startIndex, endIndex);
   }
 
   protected getTotalPages(): number {
-    const total = this.veredas().length;
+    const total = this.getVeredasFiltradas().length;
     const pageSize = this.pageSize();
     return Math.ceil(total / pageSize);
   }
@@ -197,6 +213,16 @@ export class RegistroVeredasComponent {
   protected cambiarTamanioPagina(size: number | string): void {
     this.pageSize.set(Number(size));
     this.currentPage.set(1); // Volver a la primera página
+  }
+
+  protected onSearchChange(term: string): void {
+    this.searchTerm.set(term);
+    this.currentPage.set(1); // Volver a la primera página cuando se busca
+  }
+
+  protected limpiarBusqueda(): void {
+    this.searchTerm.set('');
+    this.currentPage.set(1);
   }
 
   protected getPaginas(): number[] {
@@ -222,7 +248,7 @@ export class RegistroVeredasComponent {
   protected getRangoVisible(): string {
     const pageSize = this.pageSize();
     const currentPage = this.currentPage();
-    const total = this.veredas().length;
+    const total = this.getVeredasFiltradas().length;
 
     const desde = (currentPage - 1) * pageSize + 1;
     const hasta = Math.min(currentPage * pageSize, total);
