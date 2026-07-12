@@ -41,6 +41,11 @@
     text-align: center;
     position: relative;
     animation: popupSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    &.modal-edicion {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f6ff 100%);
+      border: 2px solid rgba(13, 110, 253, 0.1);
+    }
   }
 
   .modal-content {
@@ -62,6 +67,12 @@
       color: white;
       animation: iconPulse 0.6s ease-out;
     }
+
+    &.edit-info {
+      background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+      color: white;
+      animation: iconPulse 0.6s ease-out;
+    }
   }
 
   .modal-title {
@@ -77,6 +88,14 @@
     color: #5e6d82;
     margin: 0 0 1.5rem 0;
     line-height: 1.6;
+  }
+
+  .modal-subtitle {
+    font-size: 0.95rem;
+    color: #0d6efd;
+    margin: 0.5rem 0 0 0;
+    line-height: 1.5;
+    font-style: italic;
   }
 
   .btn-modal-close {

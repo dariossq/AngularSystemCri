@@ -15,6 +15,23 @@
     </div>
   </div>
 
+  <!-- Modal de edición seleccionada -->
+  <div class="modal-overlay" *ngIf="mostrarModalEdicion()">
+    <div class="modal-popup modal-edicion" role="alert" aria-live="assertive">
+      <div class="modal-content">
+        <div class="modal-icon edit-info">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </div>
+        <h3 class="modal-title">Editando Vereda</h3>
+        <p class="modal-message">Has seleccionado la vereda <strong>"{{ veredaEditando()?.veredaNom || veredaEditando()?.veredaNombre }}"</strong></p>
+        <p class="modal-subtitle">Realiza los cambios que consideres necesarios en el formulario</p>
+        <button type="button" class="btn-modal-close" (click)="cerrarModalEdicion()" aria-label="Cerrar mensaje">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- <header class="page-header">
     <div> -->
       <!-- <p class="section-label">Gestión de vereda</p> -->
@@ -26,7 +43,11 @@
   <div class="content-grid">
     <div class="card form-card">
       <div class="card-header">
-        <h2>Crear / editar vereda</h2>
+        @if (veredaEditando()) {
+          <h2><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Actualizar vereda</h2>
+        } @else {
+          <h2><i class="fa fa-plus-circle" aria-hidden="true"></i> Crear / Registrar vereda</h2>
+        }
       </div>
       <div class="card-body">
         <form>
@@ -52,8 +73,21 @@
             </div>
           </div>
           <div class="button-row">
-            <button type="button" class="btn btn-success" (click)="onRegister()">Registrar</button>
-            <button type="button" class="btn btn-outline-danger" (click)="onCancel()">Cancelar</button>
+            @if (veredaEditando()) {
+              <button type="button" class="btn btn-primary" (click)="onUpdate()">
+                <i class="fa fa-save" aria-hidden="true"></i> Actualizar
+              </button>
+              <button type="button" class="btn btn-outline-secondary" (click)="cerrarModalEdicion()">
+                <i class="fa fa-times" aria-hidden="true"></i> Cancelar
+              </button>
+            } @else {
+              <button type="button" class="btn btn-success" (click)="onRegister()">
+                <i class="fa fa-check" aria-hidden="true"></i> Registrar
+              </button>
+              <button type="button" class="btn btn-outline-danger" (click)="onCancel()">
+                <i class="fa fa-times" aria-hidden="true"></i> Cancelar
+              </button>
+            }
           </div>
         </form>
       </div>

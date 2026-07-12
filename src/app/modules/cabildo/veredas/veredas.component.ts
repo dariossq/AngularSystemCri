@@ -18,6 +18,8 @@ export class RegistroVeredasComponent {
   protected veredaUbicacion = signal('');
   protected veredas = signal<any[]>([]);
   protected searchTerm = signal('');
+  protected veredaEditando = signal<any | null>(null);
+  protected mostrarModalEdicion = signal(false);
   protected errorMessage = signal('');
   protected successMessage = signal('');
   protected errores: { [key: string]: string } = {};
@@ -116,6 +118,67 @@ export class RegistroVeredasComponent {
     });
   }
 
+  protected onUpdate(): void {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    this.errores = {};
+    this.mostrarErrores = true;
+
+    const nombre = this.veredaNombre().trim();
+    const ubicacion = this.veredaUbicacion().trim();
+
+    // Validar campos
+    if (!nombre) {
+      this.errores['veredaNombre'] = 'Nombre vereda es requerido';
+    }
+    if (!ubicacion) {
+      this.errores['veredaUbicacion'] = 'Descripción geográfica es requerida';
+    }
+
+    // Si hay errores, no continuar
+    if (Object.keys(this.errores).length > 0) {
+      return;
+    }
+
+    const veredaEditando = this.veredaEditando();
+    if (!veredaEditando || !veredaEditando.id) {
+      this.errorMessage.set('No se encontró la vereda a actualizar.');
+      return;
+    }
+
+    const payload = {
+      veredaNom: nombre,
+      veredaUbicacion: ubicacion
+    };
+
+    this.veredasService.update(veredaEditando.id, payload).subscribe({
+      next: (updated) => {
+        // Actualizar en la lista
+        const veredasActualizadas = this.veredas().map(v => 
+          v.id === veredaEditando.id ? updated : v
+        );
+        this.veredas.set(veredasActualizadas);
+        
+        this.veredaNombre.set('');
+        this.veredaUbicacion.set('');
+        this.veredaEditando.set(null);
+        this.mostrarModalEdicion.set(false);
+        this.successMessage.set('Vereda actualizada correctamente.');
+        this.errores = {};
+        this.mostrarErrores = false;
+        
+        // Cerrar el modal de éxito después de 3 segundos
+        setTimeout(() => {
+          this.successMessage.set('');
+        }, 3000);
+      },
+      error: (err) => {
+        console.error('Error actualizando vereda:', err);
+        this.errorMessage.set('Error al actualizar la vereda. Verifica el servidor o los datos.');
+      }
+    });
+  }
+
   protected onCancel(): void {
     this.veredaNombre.set('');
     this.veredaUbicacion.set('');
@@ -134,10 +197,27 @@ export class RegistroVeredasComponent {
 
   // Placeholder para editar (se puede implementar UI de edición)
   protected onEdit(item: any): void {
-    // Por ahora solo rellenar el formulario para edición rápida
     if (!item) return;
+    this.veredaEditando.set(item);
     this.veredaNombre.set(item.veredaNom || item.veredaNombre || '');
     this.veredaUbicacion.set(item.veredaUbicacion || '');
+    this.mostrarModalEdicion.set(true);
+    this.errores = {};
+    this.mostrarErrores = false;
+
+    // Cerrar la modal automáticamente después de 3 segundos
+    setTimeout(() => {
+      this.mostrarModalEdicion.set(false);
+    }, 3000);
+  }
+
+  protected cerrarModalEdicion(): void {
+    this.mostrarModalEdicion.set(false);
+    this.veredaEditando.set(null);
+    this.veredaNombre.set('');
+    this.veredaUbicacion.set('');
+    this.errores = {};
+    this.mostrarErrores = false;
   }
 
   protected cerrarMensajeExito(): void {
