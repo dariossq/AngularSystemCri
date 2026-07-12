@@ -90,7 +90,13 @@ export class Login implements OnInit {
     this.isLoading.set(true);
     // Llamada remota al backend. AuthService.loginRemote codifica la contraseña
     // de la misma forma que el backend C# (UTF-16LE -> Base64) antes de comparar.
-    this.authService.loginRemote(this.loginUsername(), this.loginPassword(), Number(this.selectedCompany())).subscribe({
+    const selected = this.companies().find(c => c.usuarioId === Number(this.selectedCompany()));
+    this.authService.loginRemote(
+      this.loginUsername(),
+      this.loginPassword(),
+      Number(this.selectedCompany()),
+      selected?.usuarioNombre
+    ).subscribe({
       next: (success) => {
         if (success) {
           this.successMessage.set('¡Login exitoso!');

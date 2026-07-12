@@ -23,6 +23,15 @@ export class VeredasService {
     );
   }
 
+  public getByUsuarioId(usuarioId: number): Observable<any[]> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return of([]);
+    }
+    return this.http.get<any[]>(`${this.apiUrl}/Veredas/usuario/${usuarioId}`).pipe(
+      catchError(() => of([]))
+    );
+  }
+
   public create(payload: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Veredas`, payload);
   }

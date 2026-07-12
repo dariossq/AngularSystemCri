@@ -29,10 +29,19 @@ export class RegistroVeredasComponent {
   }
 
   protected loadVeredas(): void {
-    this.veredasService.getAll().subscribe({
+    const usuario = this.currentUser();
+    const usuarioId = typeof usuario?.id === 'number' ? usuario.id : Number(usuario?.id);
+
+    if (!Number.isFinite(usuarioId)) {
+      console.error('No se encontró el ID de empresa para cargar veredas.');
+      this.veredas.set([]);
+      return;
+    }
+
+    this.veredasService.getByUsuarioId(usuarioId).subscribe({
       next: (list) => this.veredas.set(list || []),
       error: (err) => {
-        console.error('Error cargando veredas:', err);
+        console.error('Error cargando veredas por empresa:', err);
       }
     });
   }

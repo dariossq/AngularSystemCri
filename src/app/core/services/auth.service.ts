@@ -11,6 +11,7 @@ interface User {
   id: string | number;
   username: string;
   email: string;
+  empresaNombre?: string;
 }
 
 @Injectable({
@@ -194,7 +195,7 @@ export class AuthService {
   // Nota: es preferible que el backend exponga un endpoint POST de autenticación
   // que devuelva un token (JWT). Aquí hacemos lo mínimo compatible con el
   // servicio existente.
-  public loginRemote(username: string, password: string, companyId?: number): Observable<boolean> {
+  public loginRemote(username: string, password: string, companyId?: number, companyName?: string): Observable<boolean> {
     const encoded = this.encodeUnicodeBase64(password);
     return this.http.get<any[]>(`${this.apiUrl}/Seguridad`).pipe(
       map(list => {
@@ -217,7 +218,8 @@ export class AuthService {
           const userData: User = {
             id: effectiveId,
             username,
-            email: (found.email as string) ?? `${username}@local`
+            email: (found.email as string) ?? `${username}@local`,
+            empresaNombre: companyName ?? (found.usuarioNombre as string) ?? undefined
           };
           this.currentUser.set(userData);
           this.isAuthenticatedSignal.set(true);
@@ -236,7 +238,8 @@ export class AuthService {
           const userData: User = {
             id: userId,
             username,
-            email: user.email
+            email: user.email,
+            empresaNombre: companyName
           };
           this.currentUser.set(userData);
           this.isAuthenticatedSignal.set(true);
