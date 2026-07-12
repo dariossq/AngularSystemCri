@@ -22,6 +22,11 @@ export class RegistroVeredasComponent {
   protected errores: { [key: string]: string } = {};
   protected mostrarErrores = false;
 
+  // Paginación
+  protected currentPage = signal(1);
+  protected pageSize = signal(10);
+  protected pageSizeOptions = [5, 10, 15, 20];
+
   private veredasService = inject(VeredasService);
   private authService = inject(AuthService);
   protected currentUser = this.authService.getCurrentUser();
@@ -160,5 +165,76 @@ export class RegistroVeredasComponent {
     } else {
       delete this.errores[campo];
     }
+  }
+
+  // Métodos de paginación
+  protected getVeredasPaginadas(): any[] {
+    const veredas = this.veredas();
+    const pageSize = this.pageSize();
+    const currentPage = this.currentPage();
+    
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    
+    return veredas.slice(startIndex, endIndex);
+  }
+
+  protected getTotalPages(): number {
+    const total = this.veredas().length;
+    const pageSize = this.pageSize();
+    return Math.ceil(total / pageSize);
+  }
+
+  protected cambiarPagina(page: number): void {
+    const totalPages = this.getTotalPages();
+    if (page >= 1 && page <= totalPages) {
+      this.currentPage.set(page);
+      // Scroll al inicio de la tabla
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  protected cambiarTamanioPagina(size: number | string): void {
+    this.pageSize.set(Number(size));
+    this.currentPage.set(1); // Volver a la primera página
+  }
+
+  protected getPaginas(): number[] {
+    const totalPages = this.getTotalPages();
+    const currentPage = this.currentPage();
+    const pagesToShow = 5;
+    const paginas: number[] = [];
+
+    let startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + pagesToShow - 1);
+
+    if (endPage - startPage + 1 < pagesToShow) {
+      startPage = Math.max(1, endPage - pagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      paginas.push(i);
+    }
+
+    return paginas;
+  }
+
+  protected getRangoVisible(): string {
+    const pageSize = this.pageSize();
+    const currentPage = this.currentPage();
+    const total = this.veredas().length;
+
+    const desde = (currentPage - 1) * pageSize + 1;
+    const hasta = Math.min(currentPage * pageSize, total);
+
+    return `${desde}-${hasta} de ${total}`;
+  }
+
+  protected puedeAnterior(): boolean {
+    return this.currentPage() > 1;
+  }
+
+  protected puedeSiguiente(): boolean {
+    return this.currentPage() < this.getTotalPages();
   }
 }
