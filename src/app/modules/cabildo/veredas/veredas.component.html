@@ -61,28 +61,29 @@
 
     <div class="card table-card">
       <div class="card-header">
-        <h2>veredas registradas</h2>
-        <!-- <span class="text-muted">Veredas registradas</span> -->
+        <h2><i class="fa fa-map-marker" aria-hidden="true"></i> Veredas Registradas ({{ veredas().length }})</h2>
       </div>
       <div class="card-body table-responsive">
         <table class="table table-hover align-middle">
           <thead class="table-light text-uppercase small">
             <tr>
-              <th class="text-center">Sel.</th>
               <th>Vereda</th>
               <th>Ubicación</th>
-              <th class="text-end">Acciones</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             @for (v of veredas(); track v.id) {
-              <tr>
-                <td class="text-center">🔎</td>
-                <td>{{ v.veredaNom || v.veredaNombre || v.nombre }}</td>
+              <tr class="record-row">
+                <td class="font-weight-bold">{{ v.veredaNom || v.veredaNombre || v.nombre }}</td>
                 <td>{{ v.veredaUbicacion }}</td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(v)">Editar</button>
-                  <button class="btn btn-sm btn-outline-secondary" (click)="onDelete(v.id)">Eliminar</button>
+                <td>
+                  <button type="button" class="btn btn-sm btn-info me-2" (click)="onEdit(v)" title="Editar vereda" [attr.aria-label]="'Editar vereda ' + (v.veredaNom || v.veredaNombre)">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(v.id)" title="Eliminar vereda">
+                    <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                  </button>
                 </td>
               </tr>
             }

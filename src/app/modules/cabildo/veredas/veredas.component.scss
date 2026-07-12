@@ -269,30 +269,118 @@ h1 {
   overflow-x: auto;
 }
 
+.table-card {
+  background: white;
+  padding: 0;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  margin-top: 2rem;
+}
+
+.table-card .card-header {
+  padding: 1.5rem 1.5rem 0;
+  border-bottom: 2px solid #e9ecef;
+  margin-bottom: 0;
+}
+
+.table-card .card-header h2 {
+  font-weight: 700;
+  color: #1a2332;
+  margin: 0 0 1rem 0;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  i {
+    color: #0d6efd;
+  }
+}
+
 .table-card table {
   min-width: 640px;
-  border-radius: 0.75rem;
-  overflow: hidden;
+  border-radius: 0;
+  overflow: visible;
+  margin-bottom: 0;
 }
 
 .table-card thead {
-  background: #f7f9fc;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table-card thead th {
+  font-weight: 700;
+  color: #2c3e50;
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: none;
+}
+
+.table-card tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .table-card tbody tr:hover {
-  background: rgba(15, 43, 81, 0.04);
+  background-color: #f8f9fa;
+  box-shadow: inset 3px 0 0 #0d6efd;
 }
 
-.table-card td,
-.table-card th {
+.table-card td {
+  padding: 1rem 0.75rem;
   vertical-align: middle;
+  color: #555;
   border-top: none;
-  padding: 1rem 1.25rem;
+}
+
+.table-card td:first-child {
+  font-weight: 600;
+  color: #1a2332;
+}
+
+.table-card .btn-sm {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  transition: all 0.3s ease;
 }
 
 .table-card .btn-outline-primary,
 .table-card .btn-outline-secondary {
   border-radius: 999px;
+}
+
+.table-card .btn-info {
+  background-color: #0dcaf0;
+  border-color: #0dcaf0;
+  color: white;
+}
+
+.table-card .btn-info:hover {
+  background-color: #0aa8c4;
+  border-color: #0aa8c4;
+}
+
+.table-card .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+.table-card .btn-danger:hover {
+  background-color: #bb2d3b;
+  border-color: #bb2d3b;
+}
+
+.table-card td .font-weight-bold {
+  color: #1a2332;
+  font-weight: 600;
 }
 
 @media (min-width: 992px) {
