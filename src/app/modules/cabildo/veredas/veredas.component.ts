@@ -146,18 +146,27 @@ export class RegistroVeredasComponent {
       return;
     }
 
+    const usuarioId = Number(veredaEditando.usuarioId ?? this.currentUser()?.id ?? 0);
+
+    if (!Number.isFinite(usuarioId)) {
+      this.errorMessage.set('No se encontró el usuario para actualizar la vereda.');
+      return;
+    }
+
     const payload = {
       veredaNom: nombre,
-      veredaUbicacion: ubicacion
+      veredaUbicacion: ubicacion,
+      usuarioId
     };
 
     this.veredasService.update(veredaEditando.id, payload).subscribe({
       next: (updated) => {
-        // Actualizar en la lista
+        // Actualizar en la lista local y refrescar desde el servidor para asegurar datos actuales.
         const veredasActualizadas = this.veredas().map(v => 
           v.id === veredaEditando.id ? updated : v
         );
         this.veredas.set(veredasActualizadas);
+        this.loadVeredas();
         
         this.veredaNombre.set('');
         this.veredaUbicacion.set('');
