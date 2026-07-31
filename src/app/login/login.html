@@ -56,12 +56,23 @@
           @if (loadingCompanies()) {
             <div class="loading-companies">Cargando empresas...</div>
           } @else {
-            <select id="company-select" name="selectedCompany" [(ngModel)]="selectedCompany" class="company-select" required>
+            <select
+              id="company-select"
+              name="selectedCompany"
+              [ngModel]="selectedCompany()"
+              (ngModelChange)="onCompanyChange($event)"
+              class="company-select"
+              [disabled]="isLoading() || validatingAccess()"
+              required
+            >
               <option [ngValue]="null" disabled [selected]="selectedCompany() === null">Seleccione empresa</option>
               @for (c of companies(); track c.usuarioId) {
                 <option [ngValue]="c.usuarioId">{{ c.usuarioNombre }}</option>
               }
             </select>
+            @if (validatingAccess()) {
+              <div class="loading-companies">Validando permisos...</div>
+            }
           }
         </div>
         <!-- Campo Usuario -->

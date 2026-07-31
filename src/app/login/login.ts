@@ -36,6 +36,7 @@ export class Login implements OnInit {
   protected showPassword = signal(false);
   protected showConfirmPassword = signal(false);
   protected loadingCompanies = signal(false);
+  protected validatingAccess = signal(false);
 
   constructor(
     private authService: AuthService,
@@ -77,10 +78,87 @@ export class Login implements OnInit {
     this.errorMessage.set('');
     this.successMessage.set('');
   }
+// Manejar cambio de empresa seleccionada
+  protected onCompanyChange(companyId: number | null): void {
+    this.clearMessages();
+
+    if (companyId === null) {
+      this.selectedCompany.set(null);
+      return;
+    }
+
+    const usuarioId = Number(companyId);
+    if (!Number.isFinite(usuarioId)) {
+      this.rejectCompanySelection();
+      return;
+    }
+
+    this.selectedCompany.set(usuarioId);
+    this.validatingAccess.set(true);
+    // Llamada a la API para validar acceso
+    this.authService.getAcceso(usuarioId).subscribe({
+      next: (acceso) => {
+        const accesoEmpresa = Array.isArray(acceso)
+          ? acceso.find(item => Number(item.usuarioId) === usuarioId) ?? acceso[0]
+          : acceso;
+        const fechaInicio = accesoEmpresa?.fechaIAcceso ?? accesoEmpresa?.fechaIAcceso;
+        const fechaFin = accesoEmpresa?.fechaFAcceso ?? accesoEmpresa?.fechaFAcceso;
+
+        // Validar si la fecha actual está dentro del rango permitido
+        if (this.isCurrentDateWithinRange(fechaInicio, fechaFin)) {
+          this.selectedCompany.set(usuarioId);
+        } else {
+          this.rejectCompanySelection();
+        }
+        this.validatingAccess.set(false);
+      },
+      error: (error) => {
+        console.error('Error al validar acceso:', error);
+        this.rejectCompanySelection();
+        this.validatingAccess.set(false);
+      }
+    });
+  }
+
+  // Rechazar selección de empresa y mostrar mensaje de error
+  private rejectCompanySelection(): void {
+    this.selectedCompany.set(null);
+    this.errorMessage.set('No tiene los permisos adecuados para seleccionar la empresa');
+  }
+
+  /// Validar si la fecha actual está dentro del rango proporcionado
+  private isCurrentDateWithinRange(startValue?: string, endValue?: string): boolean {
+    const start = this.parseApiDate(startValue);
+    const end = this.parseApiDate(endValue);
+    if (!start || !end) return false;
+
+    const today = new Date();
+    const current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const rangeStart = start <= end ? start : end;
+    const rangeEnd = start <= end ? end : start;
+    return current >= rangeStart && current <= rangeEnd;
+  }
+
+  /// Convertir fecha de API (YYYY-MM-DD) a objeto Date
+  private parseApiDate(value?: string): Date | null {
+    if (!value) return null;
+
+    const [datePart] = value.split('T');
+    const parts = datePart.split('-').map(Number);
+    if (parts.length !== 3 || parts.some(part => !Number.isFinite(part))) return null;
+
+    const [year, month, day] = parts;
+    return new Date(year, month - 1, day);
+  }
 
   // Realizar login
   protected onLogin(): void {
     this.clearMessages();
+
+    if (this.validatingAccess()) {
+      this.errorMessage.set('Espera mientras se valida el acceso a la empresa');
+      return;
+    }
 
     if (this.selectedCompany() === null || !this.loginUsername() || !this.loginPassword()) {
       this.errorMessage.set('Por favor completa todos los campos');
