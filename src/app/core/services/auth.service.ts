@@ -14,6 +14,15 @@ interface User {
   empresaNombre?: string;
 }
 
+export interface Acceso {
+  id: number;
+  fechaIAcceso?: string;
+  fechaFAcceso?: string;
+  fechaAcceso?: string;
+  fechaAcceso2?: string;
+  usuarioId: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -169,6 +178,10 @@ export class AuthService {
         return of([]);
       })
     );
+  }
+
+  public getAcceso(usuarioId: number): Observable<Acceso | Acceso[]> {
+    return this.http.get<Acceso | Acceso[]>(`${this.apiUrl}/Accesos/${usuarioId}`);
   }
 
   
